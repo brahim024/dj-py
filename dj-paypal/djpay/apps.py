@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AuthorizeConfig(AppConfig):
+class DjpayConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'authorize'
+    name = 'dj-paypal.djpay'

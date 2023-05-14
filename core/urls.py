@@ -20,5 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('authorize/', include('authorize.urls', namespace='auth')),
+    path('djpay/', include('dj-paypal.djpay.urls', namespace='djpay')),
 ]

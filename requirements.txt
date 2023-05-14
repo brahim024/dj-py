@@ -3,3 +3,4 @@ djangorestframework==3.14.0
 requests==2.30.0
 setuptools==23.0.1
 wheel
+twine
