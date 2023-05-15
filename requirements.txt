@@ -6,3 +6,4 @@ wheel
 twine
 django-rest-swagger==2.2.0
 black
+django-factory_boy
