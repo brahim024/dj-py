@@ -1,12 +1,15 @@
 from django.contrib import admin
-from .models import Scopes,PaypalToken
+from .models import Scope,PaypalToken,PaypalInfo
 
 
 # Register your models here.
-@admin.register(Scopes)
-class ScopesAdmin(admin.ModelAdmin):
+@admin.register(Scope)
+class ScopeAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(PaypalToken)
 class PaypalTokenAdmin(admin.ModelAdmin):
+    pass
+@admin.register(PaypalInfo)
+class PaypalInfoRegister(admin.ModelAdmin):
     pass

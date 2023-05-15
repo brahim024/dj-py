@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class Scopes(models.Model):
+class Scope(models.Model):
     name = models.CharField(max_length=255)
     class Meta:
         app_label = "djpay"
@@ -18,7 +18,7 @@ class PaypalToken(models.Model):
         return self.app
 
 class PaypalInfo(models.Model):
-    scopes = models.ManyToManyField(Scopes)
+    scopes = models.ManyToManyField(Scope)
     access_token = models.CharField(max_length=255)
     access_type = models.CharField(max_length=255)
     app_id = models.CharField(max_length=255)
