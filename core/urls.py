@@ -27,7 +27,7 @@ schema_view = get_schema_view(
         title="API Documentation",
         default_version="v1",
         description="API endpoints form the Restaurant API",
-        contact=openapi.Contact(email="boughanm6@@gmail.com"),
+        contact=openapi.Contact(email="boughanm6@gmail.com"),
         basePath="/api/",
         license=openapi.License(name="MIT License"),
     ),
