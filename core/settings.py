@@ -37,7 +37,7 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "dj-paypal.djpay",
+    "djpaypal.djpay",
 ]
 
 THIRD_PARTY_APPS = ["rest_framework", "drf_yasg"]
