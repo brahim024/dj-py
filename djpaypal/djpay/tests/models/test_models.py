@@ -16,3 +16,7 @@ def test_paypal_token_create(db, paypal_token_factory):
     assert PaypalToken.objects.all().count() == 0
     paypal_token_factory.create()
     assert PaypalToken.objects.all().count() == 1
+
+def test_paypal_token_representing(db,paypal_token_factory):
+    py_token = paypal_token_factory.create()
+    assert str(py_token) == py_token.app_name

@@ -21,7 +21,7 @@ class PaypalToken(models.Model):
         app_label = "djpay"
 
     def __str__(self):
-        return self.app
+        return self.app_name
 
 
 class PaypalInfo(models.Model):
