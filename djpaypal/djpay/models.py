@@ -37,3 +37,4 @@ class PaypalInfo(models.Model):
 
     def __str__(self):
         return self.access_token
+
