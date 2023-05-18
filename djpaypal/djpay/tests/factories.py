@@ -23,11 +23,12 @@ class PaypalTokenFactory(factory.django.DjangoModelFactory):
 class PaypalInfoFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PaypalInfo
-    access_token = factory.Faker('access_token')
-    access_type = factory.Faker('access_type')
-    app_id = factory.Faker('app_id')
-    expires_in = factory.Faker('expires_in')
-    nonce = factory.Faker('nonce')
+    access_token = faker.password(length=50, special_chars=False, upper_case=False)
+    access_type = faker.random_choices(elements=('Bearer', 'Basic', 'JWT'))
+    app_id = faker.md5(raw_output=False)
+    expires_in = faker.date_between()
+    nonce = f"{faker.date_between()}_{faker.md5(raw_output=False)}"
+
     @factory.post_generation
     def scoupes(self, create, extracted, **kwargs):
         if not create:
@@ -37,4 +38,4 @@ class PaypalInfoFactory(factory.django.DjangoModelFactory):
         if extracted:
             # A list of groups were passed in, use them
             for scope in scoupes:
-                self.groups.add(scoupe)
+                self.scoupes.add(scope)
