@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Scope(models.Model):
@@ -25,6 +25,8 @@ class PaypalToken(models.Model):
 
 
 class PaypalInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tokens = models.OneToOneField(PaypalToken, on_delete=models.CASCADE)
     scopes = models.ManyToManyField(Scope)
     access_token = models.CharField(max_length=255)
     access_type = models.CharField(max_length=255)
