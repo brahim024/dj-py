@@ -2,40 +2,40 @@ import factory
 from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
 from faker import Faker
 
-faker = Faker()
+fake = Faker()
 
 
 class ScopeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Scope
 
-    name = faker.uri()
+    name = factory.Sequence(lambda n: f"Scope {n}")
 
 
 class PaypalTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PaypalToken
 
-    app_name = faker.domain_name()
-    client_id = faker.nic_handle()
-    client_secret = faker.pystr()
+    app_name = fake.domain_name()
+    client_id = fake.nic_handle()
+    client_secret = fake.pystr()
+
 
 class PaypalInfoFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PaypalInfo
-    access_token = faker.password(length=50, special_chars=False, upper_case=False)
-    access_type = faker.random_choices(elements=('Bearer', 'Basic', 'JWT'))
-    app_id = faker.md5(raw_output=False)
-    expires_in = faker.date_between()
-    nonce = f"{faker.date_between()}_{faker.md5(raw_output=False)}"
+
+    access_token = factory.LazyAttribute(lambda _: fake.uuid4())
+    access_type = "Bearer"
+    app_id = factory.LazyAttribute(lambda _: fake.uuid4())
+    expires_in = "3600"
+    nonce = factory.LazyAttribute(lambda _: fake.uuid4())
 
     @factory.post_generation
-    def scoupes(self, create, extracted, **kwargs):
+    def scopes(self, create, extracted, **kwargs):
         if not create:
-            # Simple build, do nothing.
             return
 
         if extracted:
-            # A list of groups were passed in, use them
-            for scope in scoupes:
-                self.scoupes.add(scope)
+            for scope in extracted:
+                self.scopes.add(scope)
