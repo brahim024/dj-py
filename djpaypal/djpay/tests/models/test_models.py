@@ -23,7 +23,7 @@ def test_paypal_token_representing(db, paypal_token_factory):
     assert str(py_token) == py_token.app_name
 
 
-def test_payal_info_factory_created(db, paypal_info_factory,scope_factory):
+def test_payal_info_factory_created(db, paypal_info_factory, scope_factory):
     assert PaypalInfo.objects.all().count() == 0
     s1 = scope_factory.create()
     s2 = scope_factory.create()
