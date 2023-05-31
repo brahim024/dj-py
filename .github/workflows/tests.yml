@@ -28,4 +28,6 @@ jobs:
           pip install -r requirements.txt  # Replace with your requirements file path
 
       - name: Run tests
+        env:
+          DJANGO_SETTINGS_MODULE: core.settings
         run: python -B -m pytest
