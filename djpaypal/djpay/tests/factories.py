@@ -24,6 +24,10 @@ class ScopeFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: f"Scope {n}")
 
+class SingleScopeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Scope
+    name = fake.url()
 
 class PaypalTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
