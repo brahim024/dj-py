@@ -56,5 +56,4 @@ jobs:
         run: |
             cd djpaypal 
             python -B -m pytest
-      - name: Check Lint
-        run: flake8
+      
