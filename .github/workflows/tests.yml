@@ -40,11 +40,12 @@ jobs:
   test_project:
     runs-on: ubuntu-latest # operating system your code will run on
     steps:
+      - name: test and lint
+        env:
+            DJANGO_SETTINGS_MODULE: core.settings
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - run: pip install flake8
       - run: pip install -r requirements.txt # install all our dependencies for the project
-        env:
-            DJANGO_SETTINGS_MODULE: core.settings
       - run: pytest . # run pytest test
 #      - run: flake8 . # run flake8 test
