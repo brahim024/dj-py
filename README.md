@@ -1,3 +1,4 @@
+![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 # Django PayPal REST API Integration: Building a Secure and Reliable Payment Gateway
 
 ## Description
