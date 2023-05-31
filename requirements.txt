@@ -9,3 +9,4 @@ black
 factory_boy
 pytest-django
 pytest-factoryboy
+drf-yasg
