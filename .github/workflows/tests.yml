@@ -8,31 +8,41 @@ on:
     branches:
       - main  # or the branch you want to trigger the workflow on
 
+#jobs:
+#  tests:
+#    name: Run tests
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Python
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.10.5  # Set the Python version you want to use
+#
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install -r requirements.txt  # Replace with your requirements file path
+#
+#      - name: Run database migrations
+#        env:
+#          DJANGO_SETTINGS_MODULE: core.settings
+#        run: python manage.py makemigrations && echo "1" | python manage.py migrate --noinput
+#
+#      - name: Run tests
+#        env:
+#          DJANGO_SETTINGS_MODULE: core.settings
+#        run: python -B -m pytest
 jobs:
-  tests:
-    name: Run tests
-    runs-on: ubuntu-latest
-
+  test_project:
+    runs-on: ubuntu-latest # operating system your code will run on
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.5  # Set the Python version you want to use
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Replace with your requirements file path
-
-      - name: Run database migrations
-        env:
-          DJANGO_SETTINGS_MODULE: core.settings
-        run: python manage.py makemigrations && echo "1" | python manage.py migrate --noinput
-
-      - name: Run tests
-        env:
-          DJANGO_SETTINGS_MODULE: core.settings
-        run: python -B -m pytest
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip install flake8
+      - run: pip install -r requirements.txt # install all our dependencies for the project
+      - run: pytest . # run pytest test
+      - run: flake8 . # run flake8 test
