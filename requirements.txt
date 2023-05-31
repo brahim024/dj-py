@@ -10,4 +10,4 @@ factory_boy
 pytest-django
 pytest-factoryboy
 drf-yasg
-flak8
+flake8
