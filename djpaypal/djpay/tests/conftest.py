@@ -3,7 +3,7 @@ from djpaypal.djpay.tests.factories import (
     ScopeFactory,
     PaypalTokenFactory,
     PaypalInfoFactory,
-    SingleScopeFactory
+    SingleScopeFactory,
 )
 
 register(ScopeFactory)
