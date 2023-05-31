@@ -4,8 +4,8 @@ from faker import Faker
 from django.contrib.auth.models import User
 
 
-
 fake = Faker()
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -37,6 +37,7 @@ class PaypalTokenFactory(factory.django.DjangoModelFactory):
 class PaypalInfoFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PaypalInfo
+
     user = factory.SubFactory(UserFactory)
     tokens = factory.SubFactory(PaypalTokenFactory)
     access_token = factory.LazyAttribute(lambda _: fake.uuid4())
@@ -44,7 +45,7 @@ class PaypalInfoFactory(factory.django.DjangoModelFactory):
     app_id = factory.LazyAttribute(lambda _: fake.uuid4())
     expires_in = "3600"
     nonce = factory.LazyAttribute(lambda _: fake.uuid4())
-
+    
     @factory.post_generation
     def scopes(self, create, extracted, **kwargs):
         if not create:
