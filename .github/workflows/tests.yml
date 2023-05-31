@@ -30,7 +30,7 @@ jobs:
       - name: Run database migrations
         env:
           DJANGO_SETTINGS_MODULE: core.settings
-        run: python manage.py makemigrations && python manage.py migrate --noinput
+        run: python manage.py makemigrations && echo "1" | python manage.py migrate --noinput
 
       - name: Run tests
         env:
