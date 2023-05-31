@@ -1,4 +1,5 @@
-from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
+from djpaypal.djpay.models import Scope, PaypalToken,\
+    PaypalInfo
 
 
 def test_scope_factory_create(db, scope_factory):
@@ -33,7 +34,8 @@ def test_payal_info_factory_created(
     assert PaypalInfo.objects.all().count() == 1
     assert paypal_info.scopes.all().count() == 2
     assert isinstance(paypal_info.tokens, object)
-    assert PaypalInfo.objects.get(id=1).access_token == paypal_info.access_token
+    assert PaypalInfo.objects.get(id=1).access_token ==\
+           paypal_info.access_token
 
 
 def test_paypal_info_factory_representing(db, paypal_info_factory):

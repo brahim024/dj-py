@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -130,18 +131,12 @@ LIVE_MODE = False
 
 import os
 
-DB_USERNAME=os.environ.get("DB_USERNAME")
-DB_PASSWORD=os.environ.get("DB_PASSWORD")
-DB_HOST=os.environ.get("DB_HOST")
-DB_PORT=os.environ.get("DB_PORT")
-DB_DATABASE=os.environ.get("DB_DATABASE")
-DB_IS_AVAIL = all([
-        DB_USERNAME,
-        DB_PASSWORD,
-        DB_HOST,
-        DB_PORT,
-        DB_DATABASE
-])
+DB_USERNAME = os.environ.get("DB_USERNAME")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = os.environ.get("DB_PORT")
+DB_DATABASE = os.environ.get("DB_DATABASE")
+DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE])
 
 if DB_IS_AVAIL:
     DATABASES = {

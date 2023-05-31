@@ -13,6 +13,7 @@ class PaypalTokenSerializer(serializers.ModelSerializer):
         model = PaypalToken
         fields = "__all__"
 
+
 class PaypalInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaypalInfo

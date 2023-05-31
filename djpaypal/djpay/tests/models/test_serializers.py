@@ -1,4 +1,8 @@
-from djpaypal.djpay.serializers import ScopeSerializer, PaypalTokenSerializer, PaypalInfoSerializer
+from djpaypal.djpay.serializers import (
+    ScopeSerializer,
+    PaypalTokenSerializer,
+    PaypalInfoSerializer,
+)
 
 
 def test_scope_serializer(db, single_scope_factory):
@@ -20,7 +24,8 @@ def test_paypal_token_serializer(db, paypal_token_factory):
     }
     assert serializer.data["client_id"] == pay_token.client_id
 
-def test_paypal_info_serializer(db,paypal_info_factory):
+
+def test_paypal_info_serializer(db, paypal_info_factory):
     info_factory = paypal_info_factory.create()
     serializer = PaypalInfoSerializer(info_factory)
-    assert serializer.data['access_token'] == info_factory.access_token
+    assert serializer.data["access_token"] == info_factory.access_token
