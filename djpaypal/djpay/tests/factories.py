@@ -45,7 +45,7 @@ class PaypalInfoFactory(factory.django.DjangoModelFactory):
     app_id = factory.LazyAttribute(lambda _: fake.uuid4())
     expires_in = "3600"
     nonce = factory.LazyAttribute(lambda _: fake.uuid4())
-    
+
     @factory.post_generation
     def scopes(self, create, extracted, **kwargs):
         if not create:

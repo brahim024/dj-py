@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
+
 # Create your models here.
 class Scope(models.Model):
     name = models.CharField(max_length=255)
@@ -35,11 +36,14 @@ class PaypalInfo(models.Model):
     expires_in = models.CharField(max_length=255)
     nonce = models.CharField(max_length=255)
     base_url = models.URLField(max_length=255)
+
     class Meta:
         app_label = "djpay"
+
     @classmethod
     def paypal_url(cls):
         if settings.LIVE_MODE:
             return
+
     def __str__(self):
         return self.access_token
