@@ -129,6 +129,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LIVE_MODE = False
 
+
 import os
 
 DB_USERNAME = os.environ.get("DB_USERNAME")

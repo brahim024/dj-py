@@ -1,5 +1,5 @@
-from djpaypal.djpay.models import Scope, PaypalToken,\
-    PaypalInfo
+from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
+from django.conf import settings
 
 
 def test_scope_factory_create(db, scope_factory):
@@ -41,3 +41,15 @@ def test_payal_info_factory_created(
 def test_paypal_info_factory_representing(db, paypal_info_factory):
     pay_info = paypal_info_factory.create()
     assert str(pay_info) == pay_info.access_token
+
+
+def test_paypal_info_return_production_paypal_link(db, paypal_info_factory):
+    paypal_info = paypal_info_factory.create()
+    settings.LIVE_MODE = True
+    assert paypal_info.get_link_base() == "https://api.paypal.com"
+
+
+def test_paypal_info_return_production_sandbox_link(db, paypal_info_factory):
+    paypal_info = paypal_info_factory.create()
+    settings.LIVE_MODE = False
+    assert paypal_info.get_link_base() == "https://api.sandbox.paypal.com"

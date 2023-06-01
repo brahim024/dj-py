@@ -41,9 +41,10 @@ class PaypalInfo(models.Model):
         app_label = "djpay"
 
     @classmethod
-    def paypal_url(cls):
+    def get_link_base(cls):
         if settings.LIVE_MODE:
-            return
+            return "https://api.paypal.com"
+        return "https://api.sandbox.paypal.com"
 
     def __str__(self):
         return self.access_token
