@@ -20,7 +20,7 @@ def test_paypal_token_serializer(db, paypal_token_factory):
         "app_name": pay_token.app_name,
         "client_id": pay_token.client_id,
         "client_secret": pay_token.client_secret,
-        "user": 1
+        "user": 1,
     }
     assert serializer.data["client_id"] == pay_token.client_id
 

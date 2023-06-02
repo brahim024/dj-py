@@ -3,9 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from .models import PaypalToken, PaypalInfo
-from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
-import requests
+from .models import PaypalInfo
+from .serializers import PaypalInfoSerializer
 
 
 # Create your views here.

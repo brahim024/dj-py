@@ -2,6 +2,7 @@ from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
 from django.conf import settings
 from django.contrib.auth.models import User
 
+
 def test_scope_factory_create(db, scope_factory):
     scope_factory.create()
     assert Scope.objects.all().count() == 1
@@ -23,9 +24,7 @@ def test_paypal_token_representing(db, paypal_token_factory):
     assert str(py_token) == py_token.app_name
 
 
-def test_payal_info_factory_created(
-    db, paypal_info_factory, scope_factory
-):
+def test_payal_info_factory_created(db, paypal_info_factory, scope_factory):
     assert PaypalInfo.objects.all().count() == 0
 
     s1 = scope_factory.create()
@@ -34,7 +33,8 @@ def test_payal_info_factory_created(
     paypal_info = paypal_info_factory.create(user=user, scope=[s1, s2])
     assert PaypalInfo.objects.all().count() == 1
     assert paypal_info.scope.all().count() == 2
-    assert PaypalInfo.objects.get(id=1).access_token == paypal_info.access_token
+    assert PaypalInfo.objects.get(id=1).access_token ==\
+           paypal_info.access_token
 
 
 def test_paypal_info_factory_representing(db, paypal_info_factory):
