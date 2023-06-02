@@ -15,12 +15,12 @@ def test_scope_serializer(db, single_scope_factory):
 def test_paypal_token_serializer(db, paypal_token_factory):
     pay_token = paypal_token_factory.create()
     serializer = PaypalTokenSerializer(pay_token)
-
     assert serializer.data == {
         "id": pay_token.id,
         "app_name": pay_token.app_name,
         "client_id": pay_token.client_id,
         "client_secret": pay_token.client_secret,
+        "user": 1
     }
     assert serializer.data["client_id"] == pay_token.client_id
 

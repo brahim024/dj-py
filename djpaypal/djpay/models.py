@@ -15,6 +15,7 @@ class Scope(models.Model):
 
 
 class PaypalToken(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     app_name = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
     client_secret = models.CharField(max_length=255)
@@ -28,15 +29,13 @@ class PaypalToken(models.Model):
 
 class PaypalInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tokens = models.OneToOneField(PaypalToken, on_delete=models.CASCADE)
-    scopes = models.ManyToManyField(Scope)
+    scope = models.ManyToManyField(Scope)
     access_token = models.CharField(max_length=255)
-    access_type = models.CharField(max_length=255)
+    token_type = models.CharField(max_length=255)
     app_id = models.CharField(max_length=255)
     expires_in = models.CharField(max_length=255)
     nonce = models.CharField(max_length=255)
-    base_url = models.URLField(max_length=255)
-
+    
     class Meta:
         app_label = "djpay"
 

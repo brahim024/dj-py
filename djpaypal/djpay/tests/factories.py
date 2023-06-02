@@ -36,6 +36,7 @@ class PaypalTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PaypalToken
 
+    user = factory.SubFactory(UserFactory)
     app_name = fake.domain_name()
     client_id = factory.LazyAttribute(lambda _: fake.uuid4())
     client_secret = factory.LazyAttribute(lambda _: fake.uuid4())
@@ -46,18 +47,17 @@ class PaypalInfoFactory(factory.django.DjangoModelFactory):
         model = PaypalInfo
 
     user = factory.SubFactory(UserFactory)
-    tokens = factory.SubFactory(PaypalTokenFactory)
     access_token = factory.LazyAttribute(lambda _: fake.uuid4())
-    access_type = "Bearer"
+    token_type = "Bearer"
     app_id = factory.LazyAttribute(lambda _: fake.uuid4())
     expires_in = "3600"
     nonce = factory.LazyAttribute(lambda _: fake.uuid4())
 
     @factory.post_generation
-    def scopes(self, create, extracted, **kwargs):
+    def scope(self, create, extracted, **kwargs):
         if not create:
             return
 
         if extracted:
-            for scope in extracted:
-                self.scopes.add(scope)
+            for scop in extracted:
+                self.scope.add(scop)
