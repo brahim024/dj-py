@@ -8,6 +8,7 @@ django-rest-swagger==2.2.0
 black
 factory_boy
 pytest-django
+pytest-cov
 pytest-factoryboy
 drf-yasg
 flake8

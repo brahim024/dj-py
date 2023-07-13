@@ -1,7 +1,8 @@
 [run]
 omit =
+  tests/*
   *apps.py,
-  *migrations/*,
+  /djpay/*migrations/*,
   *settings*,
   *tests/*,
   *urls.py,

@@ -37,8 +37,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0),
-         name="schema-redoc"),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
     path("djpay/", include("djpaypal.djpay.urls", namespace="djpay")),
