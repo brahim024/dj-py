@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from .models import PaypalInfo, PaypalToken, Scope
+from .models import PaypalInfo, PaypalToken
 from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
 import requests
 import json
@@ -53,7 +53,8 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         try:
             res_data = client.post(body_params, url, timeout=20)
         except requests.exceptions.RequestException as e:
-            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
         response_data = json.loads(res_data.text)
         # create scopes
         scopes = [s for s in response_data["scope"].split(" ")]
@@ -72,11 +73,14 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.create(validated_data=data)
             try:
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
             except Exception as e:
                 print(e)
                 return Response(
-                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                    serializer.error_messages,
+                    status=status.HTTP_400_BAD_REQUEST
                 )
 
-        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.error_messages,
+                        status=status.HTTP_400_BAD_REQUEST)

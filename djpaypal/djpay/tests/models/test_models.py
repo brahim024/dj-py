@@ -33,7 +33,8 @@ def test_payal_info_factory_created(db, paypal_info_factory, scope_factory):
     paypal_info = paypal_info_factory.create(user=user, scope=[s1, s2])
     assert PaypalInfo.objects.all().count() == 1
     assert paypal_info.scope.all().count() == 2
-    assert PaypalInfo.objects.get(id=1).access_token == paypal_info.access_token
+    assert PaypalInfo.objects.get(id=1).access_token == \
+           paypal_info.access_token
 
 
 def test_paypal_info_factory_representing(db, paypal_info_factory):

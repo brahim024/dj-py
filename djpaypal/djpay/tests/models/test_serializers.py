@@ -33,7 +33,5 @@ def test_paypal_info_serializer(db, paypal_info_factory):
     print(info_factory.user)
     serializer = PaypalInfoSerializer(info_factory)
 
-    assert serializer.data == {
-        "id":info_factory.id
-    }
+    assert serializer.data == {"id": info_factory.id}
     # assert serializer.data["access_token"] == info_factory.access_token

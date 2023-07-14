@@ -4,7 +4,7 @@ from djpaypal.djpay.tests.factories import (
     PaypalTokenFactory,
     PaypalInfoFactory,
     SingleScopeFactory,
-    UserFactory
+    UserFactory,
 )
 
 register(ScopeFactory)

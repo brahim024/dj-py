@@ -30,7 +30,9 @@ class PaypalInfoSerializer(serializers.ModelSerializer):
         user = User.objects.get(id=user_id)
         validated_data["user"] = user
         print("Scopes: ", scopes_data)
-        paypal_info = super().create(validated_data)  # Create the PayPalInfo instance
+
+        # Create the PayPalInfo instance
+        paypal_info = super().create(validated_data)
         for scope_name in scopes_data:
             scope, _ = Scope.objects.get_or_create(name=scope_name)
             paypal_info.scope.add(scope)
