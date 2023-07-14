@@ -15,7 +15,7 @@ class Scope(models.Model):
 
 
 class PaypalToken(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     app_name = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
     client_secret = models.CharField(max_length=255)

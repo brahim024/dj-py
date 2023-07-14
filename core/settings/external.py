@@ -4,5 +4,4 @@ import os
 
 LIVE_MODE = False
 
-
-# GENERATE
+PAYPAL_TOKEN_ID = 1

@@ -8,6 +8,8 @@ from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
 import requests
 import json
 from .client import AuthorizationAPI
+from django.conf import settings
+
 
 # Create your views here.
 # def index(request):
@@ -27,7 +29,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
 
     def get_obj(self, request):
         try:
-            return PaypalToken.objects.get(user=request.user)
+            return PaypalToken.objects.get(pk=settings.PAYPAL_TOKEN_ID)
         except PaypalInfo.DoesNotExist as e:
             return e
 
@@ -35,13 +37,16 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         try:
             paypal_token = self.get_obj(request)
             serializer = PaypalTokenSerializer(paypal_token, many=True)
-            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except PaypalToken.DoesNotExist as e:
             return Response({"detail": e}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request):
-        token_obj = self.get_obj(request)
+        try:
+            token_obj = self.get_obj(request)
+        except PaypalToken.DoesNotExist as e:
+             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
         info = PaypalInfo.get_link_base()
         grant_type = "client_credentials"
         url = info + "/v1/oauth2/token"
