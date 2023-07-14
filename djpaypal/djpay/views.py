@@ -7,7 +7,7 @@ from .models import PaypalInfo, PaypalToken, Scope
 from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
 import requests
 import json
-from .client import AuthorizationlAPI
+from .client import AuthorizationAPI
 
 # Create your views here.
 # def index(request):
@@ -47,25 +47,25 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         url = info + "/v1/oauth2/token"
         body_params = {"grant_type": grant_type}
 
-        client = AuthorizationlAPI(
+        client = AuthorizationAPI(
             api_client=token_obj.client_id, api_secret=token_obj.client_secret
         )
         try:
             res_data = client.post(body_params, url, timeout=20)
-        except Exception as e:
-            return Response({"message": str(e)})
-        # response = requests.post(url, data=body_params, auth=(token_obj.client_id, token_obj.client_secret))
-        # res_data = json.loads(response.text)
+        except requests.exceptions.RequestException as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        response_data = json.loads(res_data.text)
         # create scopes
-        scopes = [s for s in res_data["scope"].split(" ")]
+        scopes = [s for s in response_data["scope"].split(" ")]
+
         data = {
             "user": request.user.id,
             "scope": scopes,
-            "access_token": res_data["access_token"],
-            "token_type": res_data["token_type"],
-            "app_id": res_data["app_id"],
-            "expires_in": res_data["expires_in"],
-            "nonce": res_data["nonce"],
+            "access_token": response_data["access_token"],
+            "token_type": response_data["token_type"],
+            "app_id": response_data["app_id"],
+            "expires_in": response_data["expires_in"],
+            "nonce": response_data["nonce"],
         }
 
         serializer = PaypalInfoSerializer(data=data)

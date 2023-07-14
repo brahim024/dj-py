@@ -1,10 +1,10 @@
 import requests
 from dataclasses import dataclass
 import json
-
+from requests.exceptions import HTTPError
 
 @dataclass
-class AuthorizationlAPI:
+class AuthorizationAPI:
     api_client: str
     api_secret: str
 
@@ -13,10 +13,11 @@ class AuthorizationlAPI:
             response = requests.post(
                 base_url, data, auth=(self.api_client, self.api_secret), timeout=timeout
             )
-        except requests.exceptions.Timeout:
-            raise "Request timed out."
+        except requests.exceptions.Timeout as err:
+            raise err
+
         except requests.exceptions.RequestException as e:
             raise f"An error occurred during the request: {e}"
 
-        res_data = json.loads(response.text)
-        return res_data
+
+        return response
