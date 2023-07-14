@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-q8n1_1c4*2w!)p=-zvvv-1fe%2vojmcaqb3vah*=d$nha-y8*&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -130,7 +130,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LIVE_MODE = False
 
 
-import os
 
 DB_USERNAME = os.environ.get("DB_USERNAME")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
