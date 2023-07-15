@@ -34,10 +34,13 @@ class GenerateTokenViewSet(viewsets.ViewSet):
             return e
 
     def list(self, request):
+        # get paypal info object
         try:
             paypal_token = self.get_obj(request)
             serializer = PaypalTokenSerializer(paypal_token, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # raise exception when not found paypal info object
         except PaypalToken.DoesNotExist as e:
             return Response({"detail": e}, status=status.HTTP_404_NOT_FOUND)
 

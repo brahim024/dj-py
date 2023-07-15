@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+
 from django.conf import settings
 
 
@@ -15,7 +15,7 @@ class Scope(models.Model):
 
 
 class PaypalToken(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     app_name = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
     client_secret = models.CharField(max_length=255)
@@ -28,7 +28,7 @@ class PaypalToken(models.Model):
 
 
 class PaypalInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     scope = models.ManyToManyField(Scope)
     access_token = models.CharField(max_length=255)
     token_type = models.CharField(max_length=255)
