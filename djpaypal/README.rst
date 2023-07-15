@@ -1,5 +1,5 @@
 - **Django PayPal REST API Integration:**
-## Building a Secure and Reliable Payment Gateway
+- *Building a Secure and Reliable Payment Gateway*
 
 ## Description
 
