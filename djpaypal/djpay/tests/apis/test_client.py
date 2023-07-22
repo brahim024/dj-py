@@ -3,6 +3,7 @@ from unittest.mock import patch, Mock
 import pytest
 from django.conf import settings
 from djpaypal.djpay.models import PaypalToken
+import requests
 
 
 
@@ -33,11 +34,15 @@ def test_post_method(mock_post):
     assert response.json() == {"key": "value"}
 
 
-def test_post_method_raise_type_error():
+def test_post_method_raise_without_url():
+
+    # Create an instance of AuthorizationAPI
+    
+    api = AuthorizationAPI(api_client="client", api_secret="secret")
     with pytest.raises(Exception) as ex:
-        # Create an instance of AuthorizationAPI
-        api = AuthorizationAPI(api_client="client", api_secret="secret")
+
         api.post(data={})
 
+    assert "Invalid URL" in str(ex.value)
     
     
