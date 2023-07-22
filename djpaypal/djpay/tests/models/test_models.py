@@ -1,6 +1,8 @@
 from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
 from django.conf import settings
 from django.contrib.auth.models import User
+import pytest
+
 
 
 def test_scope_factory_create(db, scope_factory):

@@ -1,5 +1,5 @@
 from django.db import models
-
+import requests
 from django.conf import settings
 
 
@@ -26,6 +26,20 @@ class PaypalToken(models.Model):
     def __str__(self):
         return self.app_name
 
+    def has_valid_token(self):
+        base_url = PaypalInfo.get_link_base()
+        url = base_url + "/v1/oauth2/token"
+        body_params = {"grant_type": "client_credentials"}
+
+        response = requests.post(       
+            url, body_params, auth=(self.client_id, self.client_secret),
+            timeout=10
+        )
+        
+        response.status_code == 200
+
+
+
 
 class PaypalInfo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -41,9 +55,13 @@ class PaypalInfo(models.Model):
 
     @classmethod
     def get_link_base(cls):
+        """
+        Get the base URL for PayPal API based on the current mode.
+        """
         if settings.LIVE_MODE:
             return "https://api.paypal.com"
         return "https://api.sandbox.paypal.com"
+
 
     def __str__(self):
         return self.access_token

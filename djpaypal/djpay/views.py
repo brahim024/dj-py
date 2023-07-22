@@ -9,11 +9,7 @@ import requests
 import json
 from .client import AuthorizationAPI
 from django.conf import settings
-
-
-# Create your views here.
-# def index(request):
-#     return HttpResponse("Hello")
+from .permissions import PaypalTokenValidToken
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
@@ -37,12 +33,14 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         # get paypal info object
         try:
             paypal_token = self.get_obj(request)
-            serializer = PaypalTokenSerializer(paypal_token, many=True)
+            serializer = PaypalTokenSerializer(paypal_token)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         # raise exception when not found paypal info object
         except PaypalToken.DoesNotExist as e:
-            return Response({"detail": e}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
 
     def create(self, request):
         try:
@@ -58,11 +56,22 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         client = AuthorizationAPI(
             api_client=token_obj.client_id, api_secret=token_obj.client_secret
         )
-        try:
-            res_data = client.post(body_params, url, timeout=20)
-        except requests.exceptions.RequestException as e:
-            return Response({"message": str(e)},
-                            status=status.HTTP_400_BAD_REQUEST)
+
+        if self.get_obj(request).has_valid_token():
+
+            try:
+                res_data = client.post(body_params, url, timeout=20)
+            except requests.exceptions.RequestException as e:
+                return Response({"message": str(e)},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+        else:
+            return Response(
+                {"message":f"Your PaypalToken with ID {settings.PAYPAL_TOKEN_ID}\
+                     Has Not Valid credentials.\
+                    Please change PAYPAL_TOKEN_ID\
+                    to track another app or check current app credentials."
+                    })
         response_data = json.loads(res_data.text)
         # create scopes
         scopes = [s for s in response_data["scope"].split(" ")]

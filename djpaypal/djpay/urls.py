@@ -5,9 +5,9 @@ from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
-router.register(r"token", GenerateTokenViewSet, basename="access-token")
+router.register(r"token", GenerateTokenViewSet.as_view({'post': 'create'}), basename="token")
 
-app_name = "djpy"
+app_name = "djpay"
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [

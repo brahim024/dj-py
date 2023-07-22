@@ -1,5 +1,9 @@
 from djpaypal.djpay.client import AuthorizationAPI
 from unittest.mock import patch, Mock
+import pytest
+from django.conf import settings
+from djpaypal.djpay.models import PaypalToken
+
 
 
 @patch("requests.post")
@@ -27,3 +31,13 @@ def test_post_method(mock_post):
     # Assert that the response is as expected
     assert response.status_code == 200
     assert response.json() == {"key": "value"}
+
+
+def test_post_method_raise_type_error():
+    with pytest.raises(Exception) as ex:
+        # Create an instance of AuthorizationAPI
+        api = AuthorizationAPI(api_client="client", api_secret="secret")
+        api.post(data={})
+
+    
+    
