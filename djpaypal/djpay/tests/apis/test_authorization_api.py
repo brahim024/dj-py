@@ -37,7 +37,7 @@ def test_generate_access_token_post_with_unvalid_credentials(
     user_factory, factory, view_post, paypal_token
 ):
     assert PaypalInfo.objects.all().count() == 0
-    request = factory.post(reverse("djpay:token-create"))
+    request = factory.post(reverse("djpay:token-post"))
     force_authenticate(request, user=user_factory.create())
     response = view_post(request)
     assert PaypalInfo.objects.all().count() == 0

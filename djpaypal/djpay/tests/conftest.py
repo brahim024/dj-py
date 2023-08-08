@@ -39,4 +39,4 @@ def view():
 
 @pytest.fixture
 def view_post():
-    return GenerateTokenViewSet.as_view()
+    return GenerateTokenViewSet.as_view({"post":"create"})
