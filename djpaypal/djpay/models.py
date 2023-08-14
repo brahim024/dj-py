@@ -31,14 +31,11 @@ class PaypalToken(models.Model):
         url = base_url + "/v1/oauth2/token"
         body_params = {"grant_type": "client_credentials"}
 
-        response = requests.post(       
-            url, body_params, auth=(self.client_id, self.client_secret),
-            timeout=10
+        response = requests.post(
+            url, body_params, auth=(self.client_id, self.client_secret), timeout=10
         )
-        
-        response.status_code == 200
 
-
+        return response.status_code == 200
 
 
 class PaypalInfo(models.Model):
@@ -61,7 +58,6 @@ class PaypalInfo(models.Model):
         if settings.LIVE_MODE:
             return "https://api.paypal.com"
         return "https://api.sandbox.paypal.com"
-
 
     def __str__(self):
         return self.access_token

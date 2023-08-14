@@ -9,7 +9,6 @@ import requests
 import json
 from .client import AuthorizationAPI
 from django.conf import settings
-from .permissions import PaypalTokenValidToken
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
@@ -41,12 +40,11 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         except PaypalToken.DoesNotExist as e:
             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
-
     def create(self, request):
         try:
             token_obj = self.get_obj(request)
         except PaypalToken.DoesNotExist as e:
-             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
         info = PaypalInfo.get_link_base()
         grant_type = "client_credentials"
@@ -58,20 +56,19 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         )
 
         if self.get_obj(request).has_valid_token():
-
             try:
                 res_data = client.post(body_params, url, timeout=20)
             except requests.exceptions.RequestException as e:
-                return Response({"message": str(e)},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(
-                {"message":f"Your PaypalToken with ID {settings.PAYPAL_TOKEN_ID}\
+                {
+                    "message": f"Your PaypalToken with ID {settings.PAYPAL_TOKEN_ID}\
                      Has Not Valid credentials.\
                     Please change PAYPAL_TOKEN_ID\
                     to track another app or check current app credentials."
-                    })
+                }
+            )
         response_data = json.loads(res_data.text)
         # create scopes
         scopes = [s for s in response_data["scope"].split(" ")]
@@ -90,14 +87,11 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.create(validated_data=data)
             try:
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
                 print(e)
                 return Response(
-                    serializer.error_messages,
-                    status=status.HTTP_400_BAD_REQUEST
+                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
                 )
 
-        return Response(serializer.error_messages,
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
