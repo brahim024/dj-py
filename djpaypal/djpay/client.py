@@ -12,8 +12,14 @@ class AuthorizationAPI:
             response = requests.post(
                 base_url, data, auth=(self.api_client, self.api_secret), timeout=timeout
             )
-        except TypeError as t_err:
-            raise f"An error occurred during the request: {t_err}"
-        except requests.exceptions.RequestException as e:
-            raise f"An error occurred during the request: {e}"
-        return response
+            response.raise_for_status()
+        
+        except requests.exceptions.Timeout:
+            return "Timed Out"
+        except requests.exceptions.ConnectionError:
+            return "Connection Error"
+        except requests.exceptions.HTTPError:
+            return "HttpError raised"
+        else:
+            
+            return response

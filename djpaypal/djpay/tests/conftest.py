@@ -37,6 +37,7 @@ def factory():
 def view():
     return GenerateTokenViewSet.as_view({'get': 'list'})
 
+
 @pytest.fixture
 def view_post():
     return GenerateTokenViewSet.as_view({"post":"create"})

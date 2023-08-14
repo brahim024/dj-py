@@ -1,0 +1,15 @@
+{
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.autoTestDiscoverOnSaveEnabled": false,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./djpaypal",
+        "-p",
+        "test*.py"
+    ],
+    "python.testing.pytestArgs": [
+        "djpaypal"
+    ]
+}
