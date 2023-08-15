@@ -27,11 +27,12 @@ class TestAPiClient:
         response.data["client_id"] == paypal_token.client_id
 
     @pytest.mark.skip
+    @pytest.mark.django_db
     def test_generate_access_token_post_with_unvalid_credentials(
-        self, db, user_factory, factory, view_post, paypal_token
+        self, user_factory, factory, view_post, paypal_token
     ):
         assert PaypalInfo.objects.all().count() == 0
-        request = factory.post(reverse("djpay:token-post"))
+        request = factory.post(reverse("djpay:token-create"))
         force_authenticate(request, user=user_factory.create())
         view_post(request)
         assert PaypalInfo.objects.all().count() == 0
@@ -45,4 +46,4 @@ class TestAPiClient:
         token = paypal_token_factory.create()
         
         # add assert called with
-        assert token.has_valid_token() == "Connection Error"
+        assert "Connection Error" in token.has_valid_token()

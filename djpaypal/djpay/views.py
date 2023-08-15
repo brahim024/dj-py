@@ -26,7 +26,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         try:
             return PaypalToken.objects.get(pk=settings.PAYPAL_TOKEN_ID)
         except PaypalInfo.DoesNotExist as e:
-            return e
+            return f"Invalid App token info or not exist: {e}"
 
     def list(self, request):
         # get paypal info object
@@ -41,6 +41,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request):
+        client_error = ['HttpError raised','Connection Error','Timed Out']
         try:
             token_obj = self.get_obj(request)
         except PaypalToken.DoesNotExist as e:
@@ -56,10 +57,39 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         )
 
         if self.get_obj(request).has_valid_token():
-            try:
-                res_data = client.post(body_params, url, timeout=20)
-            except requests.exceptions.RequestException as e:
-                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            res_data = client.post(body_params, url, timeout=20)
+            print("res_data: ",res_data)
+            
+            if isinstance(res_data,str):
+                return Response({"message":res_data},status=status.HTTP_400_BAD_REQUEST)
+            else:
+                
+                response_data = json.loads(res_data.content)
+                # create scopes
+                scopes = [s for s in response_data["scope"].split(" ")]
+
+                data = {
+                    "user": request.user.id,
+                    "scope": scopes,
+                    "access_token": response_data["access_token"],
+                    "token_type": response_data["token_type"],
+                    "app_id": response_data["app_id"],
+                    "expires_in": response_data["expires_in"],
+                    "nonce": response_data["nonce"],
+                }
+
+                serializer = PaypalInfoSerializer(data=data)
+                if serializer.is_valid(raise_exception=True):
+                    serializer.create(validated_data=data)
+                    try:
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    except Exception as e:
+                        return Response(
+                            serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                        )
+
+                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+
         else:
             return Response(
                 {
@@ -69,29 +99,4 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                     to track another app or check current app credentials."
                 }
             )
-        response_data = json.loads(res_data.text)
-        # create scopes
-        scopes = [s for s in response_data["scope"].split(" ")]
-
-        data = {
-            "user": request.user.id,
-            "scope": scopes,
-            "access_token": response_data["access_token"],
-            "token_type": response_data["token_type"],
-            "app_id": response_data["app_id"],
-            "expires_in": response_data["expires_in"],
-            "nonce": response_data["nonce"],
-        }
-
-        serializer = PaypalInfoSerializer(data=data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.create(validated_data=data)
-            try:
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                print(e)
-                return Response(
-                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
-                )
-
-        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+        

@@ -56,7 +56,7 @@ class TestClient:
         mocker.assert_called_once()
         # add assert called with
 
-        assert result == "Timed Out"
+        assert "Timed Out" in result
 
     # @pytest.mark.django_db
     @patch("djpaypal.djpay.client.requests.post")
@@ -70,7 +70,7 @@ class TestClient:
         mocker.assert_called_once()
         # add assert called with
 
-        assert result == "Connection Error"
+        assert "Connection Error" in result 
 
     # test failed status code
     @patch("djpaypal.djpay.client.requests.post")
@@ -83,4 +83,4 @@ class TestClient:
         auth = AuthorizationAPI("auth", "api_secret")
         result = auth.post({"grant_type", "client_credentials"}, "https://example.com")
         mocker.assert_called_once()
-        assert result == "HttpError raised"
+        assert "HttpError raised" in result

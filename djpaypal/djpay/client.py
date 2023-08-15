@@ -14,11 +14,11 @@ class AuthorizationAPI:
             )
             response.raise_for_status()
 
-        except requests.exceptions.Timeout:
-            return "Timed Out"
-        except requests.exceptions.ConnectionError:
-            return "Connection Error"
-        except requests.exceptions.HTTPError:
-            return "HttpError raised"
+        except requests.exceptions.Timeout as e:
+            return f"Timed Out {e}"
+        except requests.exceptions.ConnectionError as e:
+            return f"Connection Error {e}"
+        except requests.exceptions.HTTPError as e:
+            return f"HttpError raised {e}"
         else:
             return response
