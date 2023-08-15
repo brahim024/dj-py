@@ -6,16 +6,17 @@ from djpaypal.djpay.serializers import (
 )
 
 
-class TestSerializer: 
+class TestSerializer:
+
     @pytest.mark.django_db
-    def test_scope_serializer(single_scope_factory):
+    def test_scope_serializer(self,single_scope_factory):
         scope = single_scope_factory.create()
         serializer = ScopeSerializer(scope)
         assert serializer.data["name"] == scope.name
         assert serializer.data == {"id": 1, "name": scope.name}
 
     @pytest.mark.django_db
-    def test_paypal_token_serializer(paypal_token_factory):
+    def test_paypal_token_serializer(self,paypal_token_factory):
         pay_token = paypal_token_factory.create()
         serializer = PaypalTokenSerializer(pay_token)
         assert serializer.data == {
@@ -27,8 +28,9 @@ class TestSerializer:
         }
         assert serializer.data["client_id"] == pay_token.client_id
 
+    @pytest.mark.django_db
     @pytest.mark.skip
-    def test_paypal_info_serializer(db, paypal_info_factory):
+    def test_paypal_info_serializer(self, paypal_info_factory):
         # user = user_factory.create
         info_factory = paypal_info_factory.create()
         print(info_factory.user)

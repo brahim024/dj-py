@@ -3,6 +3,9 @@ from django.urls import reverse
 from django.test import Client
 from rest_framework.test import force_authenticate
 from djpaypal.djpay.models import PaypalInfo
+import requests
+from unittest.mock import patch
+from requests.exceptions import ConnectionError
 
 
 class TestAPiClient:
@@ -32,3 +35,14 @@ class TestAPiClient:
         force_authenticate(request, user=user_factory.create())
         view_post(request)
         assert PaypalInfo.objects.all().count() == 0
+
+    @pytest.mark.django_db
+    @patch("djpaypal.djpay.models.requests.post")
+    def test_has_valid_token_raise_connection_error(self, mocker, paypal_token_factory):
+        mocker.exceptions = requests.exceptions
+        mocker.side_effect = ConnectionError("Connection Error")
+
+        token = paypal_token_factory.create()
+
+        # add assert called with
+        assert token.has_valid_token() == "Connection Error"

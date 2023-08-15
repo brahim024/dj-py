@@ -30,12 +30,20 @@ class PaypalToken(models.Model):
         base_url = PaypalInfo.get_link_base()
         url = base_url + "/v1/oauth2/token"
         body_params = {"grant_type": "client_credentials"}
-
-        response = requests.post(
-            url, body_params, auth=(self.client_id, self.client_secret), timeout=10
-        )
-
-        return response.status_code == 200
+        try:
+            response = requests.post(
+                url, body_params, auth=(self.client_id, self.client_secret), timeout=10
+            )
+            response.raise_for_status()
+            
+        except requests.exceptions.Timeout:
+            return "Timed Out"
+        except requests.exceptions.ConnectionError:
+            return "Connection Error"
+        except requests.exceptions.HTTPError:
+            return "HttpError raised"
+        else:
+            return response.status_code == 200
 
 
 class PaypalInfo(models.Model):
