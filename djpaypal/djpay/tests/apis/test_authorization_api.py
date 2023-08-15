@@ -43,6 +43,6 @@ class TestAPiClient:
         mocker.side_effect = ConnectionError("Connection Error")
 
         token = paypal_token_factory.create()
-
+        
         # add assert called with
         assert token.has_valid_token() == "Connection Error"
