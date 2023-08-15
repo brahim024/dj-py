@@ -34,7 +34,7 @@ class PaypalToken(models.Model):
             response = requests.post(
                 url, body_params, auth=(self.client_id, self.client_secret), timeout=10
             )
-            response.raise_for_status()
+            
             
         except requests.exceptions.Timeout:
             return "Timed Out"
@@ -43,6 +43,7 @@ class PaypalToken(models.Model):
         except requests.exceptions.HTTPError:
             return "HttpError raised"
         else:
+            print("Valid Token: ",response.status_code)
             return response.status_code == 200
 
 

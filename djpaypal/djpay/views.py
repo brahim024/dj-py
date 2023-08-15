@@ -24,7 +24,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
 
     def get_obj(self, request):
         try:
-            return PaypalToken.objects.get(pk=settings.PAYPAL_TOKEN_ID)
+            return PaypalToken.objects.get(app_name=settings.PAYPAL_TOKEN_APP_NAME)
         except PaypalInfo.DoesNotExist as e:
             return f"Invalid App token info or not exist: {e}"
 
@@ -93,10 +93,11 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         else:
             return Response(
                 {
-                    "message": f"Your PaypalToken with ID {settings.PAYPAL_TOKEN_ID}\
+                    "message": f"Your PaypalToken with name {settings.PAYPAL_TOKEN_APP_NAME}\
                      Has Not Valid credentials.\
-                    Please change PAYPAL_TOKEN_ID\
+                    Please change PAYPAL_TOKEN_APP_NAME\
                     to track another app or check current app credentials."
-                }
+                },
+                status=status.HTTP_401_UNAUTHORIZED
             )
         

@@ -24,7 +24,6 @@ class TestAPiClient:
 
         response = view(request)
         response.status_code == 200
-        response.data["client_id"] == paypal_token.client_id
 
     @pytest.mark.skip
     @pytest.mark.django_db
