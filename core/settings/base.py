@@ -149,3 +149,4 @@ if DB_IS_AVAIL:
     }
 
 # GENERATE
+PACKABLE = False

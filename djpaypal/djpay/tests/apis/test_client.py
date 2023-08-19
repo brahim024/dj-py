@@ -7,7 +7,7 @@ import requests
 
 
 
-@patch("requests.post")
+@patch("djpaypal.djpay.models.requests.post")
 def test_post_method(mock_post):
     # Create a mock response
     mock_response = Mock()
@@ -37,12 +37,13 @@ def test_post_method(mock_post):
 def test_post_method_raise_without_url():
 
     # Create an instance of AuthorizationAPI
-    
+
     api = AuthorizationAPI(api_client="client", api_secret="secret")
     with pytest.raises(Exception) as ex:
 
         api.post(data={})
 
     assert "Invalid URL" in str(ex.value)
-    
-    
+
+
+

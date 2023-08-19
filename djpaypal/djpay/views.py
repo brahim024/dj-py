@@ -25,7 +25,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
 
     def get_obj(self, request):
         try:
-            return PaypalToken.objects.get(pk=settings.PAYPAL_TOKEN_ID)
+            return PaypalToken.objects.get(app_name=settings.PAYPAL_TOKEN_APP_NAME)
         except PaypalInfo.DoesNotExist as e:
             return e
 
@@ -56,7 +56,8 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         client = AuthorizationAPI(
             api_client=token_obj.client_id, api_secret=token_obj.client_secret
         )
-
+        print("Valid URL: ",self.get_obj(request).has_valid_token())
+        # check paypal credentials are valid
         if self.get_obj(request).has_valid_token():
 
             try:
@@ -67,11 +68,12 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                     )
         else:
             return Response(
-                {"message":f"Your PaypalToken with ID {settings.PAYPAL_TOKEN_ID}\
-                     Has Not Valid credentials.\
-                    Please change PAYPAL_TOKEN_ID\
-                    to track another app or check current app credentials."
-                    })
+                {"message":f"""Your PaypalToken with ID {settings.PAYPAL_TOKEN_APP_NAME}
+                    Has Not Valid credentials.
+                    Please change PAYPAL_TOKEN_APP_NAME
+                    to track another app or check current app credentials."""
+                    },status=status.HTTP_400_BAD_REQUEST)
+
         response_data = json.loads(res_data.text)
         # create scopes
         scopes = [s for s in response_data["scope"].split(" ")]

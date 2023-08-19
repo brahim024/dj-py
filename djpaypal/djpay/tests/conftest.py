@@ -2,11 +2,11 @@ import pytest
 
 from djpaypal.djpay.models import PaypalToken
 from django.conf import settings
-
+from django.test import Client
 from rest_framework.test import APIRequestFactory
 
 from djpaypal.djpay.views import GenerateTokenViewSet
-
+from unittest.mock import Mock
 from pytest_factoryboy import register
 from djpaypal.djpay.tests.factories import (
     ScopeFactory,
@@ -33,11 +33,16 @@ def paypal_token():
 def factory():
     return APIRequestFactory()
 
-@pytest.fixture
-def view():
-    return GenerateTokenViewSet.as_view({'get': 'list'})
-
 
 @pytest.fixture
 def view_post():
     return GenerateTokenViewSet.as_view({'post':'create '})
+
+@pytest.fixture
+def mock_get():
+    return Mock('requests.get')
+
+
+@pytest.fixture
+def client():
+    return Client()

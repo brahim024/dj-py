@@ -1,10 +1,10 @@
 from django.urls import path, include
 from .views import GenerateTokenViewSet
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 
 # Create a router and register our viewsets with it.
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r"token", GenerateTokenViewSet, basename="token")
 
 app_name = "djpay"
