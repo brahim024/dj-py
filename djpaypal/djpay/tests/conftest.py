@@ -3,8 +3,8 @@ import pytest
 from djpaypal.djpay.models import PaypalToken
 from django.conf import settings
 from django.test import Client
-from rest_framework.test import APIRequestFactory
-
+# from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIClient
 from djpaypal.djpay.views import GenerateTokenViewSet
 from unittest.mock import Mock
 from pytest_factoryboy import register
@@ -30,8 +30,8 @@ def paypal_token():
     return PaypalTokenFactory.create()
 
 @pytest.fixture
-def factory():
-    return APIRequestFactory()
+def api_factory():
+    return APIClient()
 
 
 @pytest.fixture
