@@ -59,11 +59,11 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         if self.get_obj(request).has_valid_token():
             res_data = client.post(body_params, url, timeout=20)
             print("res_data: ",res_data)
-            
+
             if isinstance(res_data,str):
                 return Response({"message":res_data},status=status.HTTP_400_BAD_REQUEST)
             else:
-                
+
                 response_data = json.loads(res_data.content)
                 # create scopes
                 scopes = [s for s in response_data["scope"].split(" ")]
@@ -100,4 +100,3 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        

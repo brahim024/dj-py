@@ -28,14 +28,15 @@ class PaypalToken(models.Model):
 
     def has_valid_token(self):
         base_url = PaypalInfo.get_link_base()
-        url = base_url + "/v1/oauth2/token"
+        url = base_url + "/v1/identity/oauth2/userinfo?schema=paypalv1.1"
         body_params = {"grant_type": "client_credentials"}
         try:
+
             response = requests.post(
                 url, body_params, auth=(self.client_id, self.client_secret), timeout=10
             )
-            
-            
+
+
         except requests.exceptions.Timeout:
             return "Timed Out"
         except requests.exceptions.ConnectionError:

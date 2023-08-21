@@ -70,7 +70,7 @@ class TestClient:
         mocker.assert_called_once()
         # add assert called with
 
-        assert "Connection Error" in result 
+        assert "Connection Error" in result
 
     # test failed status code
     @patch("djpaypal.djpay.client.requests.post")

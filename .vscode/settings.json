@@ -1,4 +1,11 @@
 {
+<<<<<<< HEAD
+    "python.testing.pytestArgs": [
+        "djpaypal"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+=======
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.testing.autoTestDiscoverOnSaveEnabled": false,
@@ -12,4 +19,5 @@
     "python.testing.pytestArgs": [
         "djpaypal"
     ]
+>>>>>>> b53a402ed0436c89e1b9627fca866eb1105110c5
 }

@@ -2,6 +2,7 @@ from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
 from django.conf import settings
 from django.contrib.auth.models import User
 import pytest
+
 from unittest.mock import MagicMock, patch
 
 
@@ -52,12 +53,12 @@ class TestModels:
         settings.LIVE_MODE = True
         assert paypal_info.get_link_base() == "https://api.paypal.com"
 
-    @pytest.mark.django_db 
+    @pytest.mark.django_db
     def test_paypal_info_return_production_sandbox_link(self, paypal_info_factory):
         paypal_info = paypal_info_factory.create()
         settings.LIVE_MODE = False
         assert paypal_info.get_link_base() == "https://api.sandbox.paypal.com"
-    
+
     @pytest.mark.django_db
     @patch('djpaypal.djpay.models.requests.post')
     def test_paypal_info_has_valid_extention(self, mocker, paypal_token_factory):
@@ -78,6 +79,5 @@ class TestModels:
         has_valid = info.has_valid_token()
         assert has_valid == False
 
-    
 
-        
+
