@@ -29,7 +29,6 @@ class PaypalInfoSerializer(serializers.ModelSerializer):
         # Get the User instance corresponding to the user ID
         user = User.objects.get(id=user_id)
         validated_data["user"] = user
-        
 
         # Create the PayPalInfo instance
         paypal_info = super().create(validated_data)

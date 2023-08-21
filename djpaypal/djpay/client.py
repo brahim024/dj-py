@@ -12,8 +12,13 @@ class AuthorizationAPI:
             response = requests.post(
                 base_url, data, auth=(self.api_client, self.api_secret), timeout=timeout
             )
-        
-        except Exception as e:
-            raise   
-            
-        return response
+            response.raise_for_status()
+
+        except requests.exceptions.Timeout as e:
+            return f"Timed Out {e}"
+        except requests.exceptions.ConnectionError as e:
+            return f"Connection Error {e}"
+        except requests.exceptions.HTTPError as e:
+            return f"HttpError raised {e}"
+        else:
+            return response

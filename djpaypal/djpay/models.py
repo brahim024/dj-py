@@ -31,16 +31,21 @@ class PaypalToken(models.Model):
         url = base_url + "/v1/identity/oauth2/userinfo?schema=paypalv1.1"
         body_params = {"grant_type": "client_credentials"}
         try:
-            response = requests.get(       
-                url, body_params, auth=(self.client_id, self.client_secret),
-                timeout=10
+
+            response = requests.post(
+                url, body_params, auth=(self.client_id, self.client_secret), timeout=10
             )
+
+
+        except requests.exceptions.Timeout:
+            return "Timed Out"
+        except requests.exceptions.ConnectionError:
+            return "Connection Error"
+        except requests.exceptions.HTTPError:
+            return "HttpError raised"
+        else:
+            print("Valid Token: ",response.status_code)
             return response.status_code == 200
-        except Exception as ex:
-            raise Exception(ex)
-        
-
-
 
 
 class PaypalInfo(models.Model):
@@ -63,7 +68,6 @@ class PaypalInfo(models.Model):
         if settings.LIVE_MODE:
             return "https://api.paypal.com"
         return "https://api.sandbox.paypal.com"
-
 
     def __str__(self):
         return self.access_token
