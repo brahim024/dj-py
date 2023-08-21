@@ -1,9 +1,15 @@
 import requests
 from dataclasses import dataclass
+from abc import ABC,abstractclassmethod
 
+class PaypalClient(ABC):
+    
+    @abstractclassmethod
+    def post():
+        pass
 
 @dataclass
-class AuthorizationAPI:
+class AuthorizationAPI(PaypalClient):
     api_client: str
     api_secret: str
 
