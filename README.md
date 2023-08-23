@@ -46,3 +46,16 @@ pip install dj-py
     - ```djpay/v1/oauth2/token```
     - ```djpay/v1/terminate``` 
     
+
+# Configuration
+## Configure INSTALLED_APPS:
+
+```
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    (...),
+    'rest_framework',
+    'djpy',
+    
+)
+```

@@ -21,7 +21,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
     authentication_classes = [authentication.BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_obj(self):
+    def get_obj(self,request):
         """
         Retrieve the PaypalToken object associated with the app name.
         """
@@ -47,7 +47,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         """
         Create a new access token using the provided client credentials.
         """
-        client_error = ['HttpError raised','Connection Error','Timed Out']
+        
         try:
             token_obj = self.get_obj(request)
         except PaypalToken.DoesNotExist as e:
