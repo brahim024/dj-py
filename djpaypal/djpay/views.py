@@ -3,13 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from .models import PaypalInfo, PaypalToken
+from djpaypal.djpay.models import PaypalInfo, PaypalToken
 from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
 import requests
 import json
-from .client import AuthorizationAPI
+from djpaypal.djpay.client import AuthorizationAPI
 from django.conf import settings
-
 
 class GenerateTokenViewSet(viewsets.ViewSet):
     """
@@ -22,25 +21,32 @@ class GenerateTokenViewSet(viewsets.ViewSet):
     authentication_classes = [authentication.BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_obj(self, request):
+    def get_obj(self):
+        """
+        Retrieve the PaypalToken object associated with the app name.
+        """
         try:
             return PaypalToken.objects.get(app_name=settings.PAYPAL_TOKEN_APP_NAME)
         except PaypalInfo.DoesNotExist as e:
             return f"Invalid App token info or not exist: {e}"
 
     def list(self, request):
-        # get paypal info object
+        """
+        Retrieve the access token information for the current user.
+        """
         try:
             paypal_token = self.get_obj(request)
             serializer = PaypalTokenSerializer(paypal_token)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        # raise exception when not found paypal info object
         except PaypalToken.DoesNotExist as e:
             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request):
+        """
+        Create a new access token using the provided client credentials.
+        """
         client_error = ['HttpError raised','Connection Error','Timed Out']
         try:
             token_obj = self.get_obj(request)
@@ -65,7 +71,6 @@ class GenerateTokenViewSet(viewsets.ViewSet):
             else:
 
                 response_data = json.loads(res_data.content)
-                # create scopes
                 scopes = [s for s in response_data["scope"].split(" ")]
 
                 data = {
@@ -100,4 +105,3 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_401_UNAUTHORIZED
             )
-
