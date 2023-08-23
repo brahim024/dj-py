@@ -5,7 +5,7 @@ from rest_framework.routers import SimpleRouter
 
 # Create a router and register our viewsets with it.
 router = SimpleRouter()
-router.register(r"token", GenerateTokenViewSet, basename="token")
+router.register(r"v1/generate-token", GenerateTokenViewSet, basename="token")
 
 app_name = "djpay"
 

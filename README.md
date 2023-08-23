@@ -43,5 +43,6 @@ pip install dj-py
 
 # Available Endpoints
 - ## Authorization
-    - ```djpay/v1/oauth2/token``` (Include Tken)
-    - ```djpay/v``` 
+    - ```djpay/v1/oauth2/token```
+    - ```djpay/v1/terminate``` 
+    

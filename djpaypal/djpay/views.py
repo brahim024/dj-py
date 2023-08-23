@@ -100,3 +100,4 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_401_UNAUTHORIZED
             )
+
