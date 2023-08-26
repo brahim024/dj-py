@@ -147,6 +147,14 @@ if DB_IS_AVAIL:
             "PORT": DB_PORT,
         }
     }
+#  =============================================================================== Package Settings ==================================
 
 # GENERATE
 PACKABLE = False
+
+
+LIVE_MODE = False
+
+PAYPAL_TOKEN_APP_NAME = "upload_dict"
+
+AUTH_USER_MODEL = "auth.User"

@@ -41,12 +41,6 @@ To install the package, run:
 pip install dj-py
 ```
 
-# Available Endpoints
-- ## Authorization
-    - ```djpay/v1/oauth2/token```
-    - ```djpay/v1/terminate``` 
-    
-
 # Configuration
 ## Configure INSTALLED_APPS:
 
