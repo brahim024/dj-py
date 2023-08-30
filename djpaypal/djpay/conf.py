@@ -28,6 +28,7 @@ default_settings = {
             "paypal_token_serializers":"djpay.serializers.PaypalTokenSerializer",
             "payal_info_serializers":"djpay.serializers.PaypalInfoSerializer",
         }
+    
     ),
     
 }
@@ -46,4 +47,13 @@ class Settings:
         self._load_default_settings(self)
 
     def _load_default_settings(self):
-        pass
+        # load default settings
+        for setting_name,setting_value in default_settings.items():
+            if setting_name.isupper():
+                setattr(self,setting_name,setting_value)
+
+
+    def _load_settings(self,overriden_settings:dict):
+        for setting_name, settings_value in overriden_settings.items():
+            value = settings_value
+            if isinstance(settings_value, dict):
