@@ -2,7 +2,7 @@ from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
 
 
-DJOSER_SETTINGS_NAMESPACE = "DJPAY"
+DJPAY_SETTINGS_NAMESPACE = "DJ_PAYPAL"
 
 
 class ObjDict(dict):
@@ -40,12 +40,18 @@ class Settings:
         if explicit_overriden_settings is None:
             explicit_overriden_settings = {}
 
+        # get overriden setting form default django settings
         overriden_settings = (
-            getattr(django_settings,DJOSER_SETTINGS_NAMESPACE,None)
+            getattr(django_settings,DJPAY_SETTINGS_NAMESPACE,{})
             or explicit_overriden_settings
         )
-        self._load_default_settings(self)
+        self._load_default_settings()
+        self._override_settings(overriden_settings)
+        # self.get_overrid(overriden_settings)
 
+    def get_overrid(self,overriden_settings):
+        print(overriden_settings)
+    
     def _load_default_settings(self):
         # load default settings
         for setting_name,setting_value in default_settings.items():
@@ -53,7 +59,19 @@ class Settings:
                 setattr(self,setting_name,setting_value)
 
 
-    def _load_settings(self,overriden_settings:dict):
+    def _override_settings(self,overriden_settings:dict):
+        """
+        get overriden settings from django defaul settings
+        """
         for setting_name, settings_value in overriden_settings.items():
             value = settings_value
+            
             if isinstance(settings_value, dict):
+                value = getattr(self,setting_name,{})
+                value.update(ObjDict(settings_value))
+            setattr(self,setting_name,value)
+
+            
+
+
+

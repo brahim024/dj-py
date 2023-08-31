@@ -153,8 +153,9 @@ if DB_IS_AVAIL:
 PACKABLE = False
 
 
-LIVE_MODE = False
 
-PAYPAL_TOKEN_APP_NAME = "upload_dict"
-
-AUTH_USER_MODEL = "auth.User"
+DJ_PAYPAL = {
+    "LIVE_MODE": False,
+    "PAYPAL_TOKEN_APP_NAME": "upload_dict",
+    "AUTH_USER_MODEL": "auth.User",
+}
