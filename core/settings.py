@@ -39,6 +39,7 @@ LOCAL_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "djpaypal.djpay",
+
 ]
 
 THIRD_PARTY_APPS = ["rest_framework", "drf_yasg"]
@@ -156,6 +157,6 @@ PACKABLE = False
 
 DJ_PAYPAL = {
     "LIVE_MODE": False,
-    "PAYPAL_TOKEN_APP_NAME": "upload_dict",
     "AUTH_USER_MODEL": "auth.User",
+    "PAYPAL_TOKEN_APP_NAME":"upload_dict"
 }

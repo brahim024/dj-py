@@ -1,5 +1,8 @@
 from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
+from django.utils.functional import LazyObject
+from django.test.signals import setting_changed
+from . import signals
 
 
 DJPAY_SETTINGS_NAMESPACE = "DJ_PAYPAL"
@@ -21,7 +24,7 @@ class ObjDict(dict):
     
 
 default_settings = {
-    "LIVE_MODE": False,
+    "LIVE_MODE": True,
     "SERIALIZERS":ObjDict(
         {
             "scope_serializer":"djpay.serializers.ScopeSerializer",
@@ -30,6 +33,9 @@ default_settings = {
         }
     
     ),
+    "PERMISSIONS":ObjDict({
+        "is_authenticated":["rest_framework.permissions.IsAuthenticated"]
+    }),
     
 }
 
@@ -47,31 +53,58 @@ class Settings:
         )
         self._load_default_settings()
         self._override_settings(overriden_settings)
-        # self.get_overrid(overriden_settings)
-
-    def get_overrid(self,overriden_settings):
-        print(overriden_settings)
+        
+    
     
     def _load_default_settings(self):
-        # load default settings
-        for setting_name,setting_value in default_settings.items():
+        
+        """
+        Load default settings into object attributes.
+
+        Sets object attributes using values from 'default_settings'.
+        Only applies to settings with uppercase names.
+
+        """
+        for setting_name, setting_value in default_settings.items():
             if setting_name.isupper():
-                setattr(self,setting_name,setting_value)
+                setattr(self, setting_name, setting_value)
 
 
-    def _override_settings(self,overriden_settings:dict):
+
+    def _override_settings(self, overridden_settings: dict):
+
         """
-        get overriden settings from django defaul settings
+        Override object settings using provided dictionary.
+
+        Updates object attributes with settings from 'overridden_settings'.
+        If a setting is a dictionary, merges it with existing attribute
+        using custom `ObjDict`.
+
+        :param overridden_settings: Dictionary of settings to apply.
         """
-        for setting_name, settings_value in overriden_settings.items():
+        for setting_name, settings_value in overridden_settings.items():
             value = settings_value
             
             if isinstance(settings_value, dict):
-                value = getattr(self,setting_name,{})
+                value = getattr(self, setting_name, {})
+                
                 value.update(ObjDict(settings_value))
-            setattr(self,setting_name,value)
-
-            
-
+                print(value)
+            setattr(self, setting_name, value)
 
 
+class LazySettings(LazyObject):
+    def _setup(self, explicit_overriden_settings=None):
+        self._wrapped = Settings(default_settings, explicit_overriden_settings)
+
+
+settings = LazySettings()
+
+
+def reload_djoser_settings(*args, **kwargs):
+    global settings
+    setting, value = kwargs["setting"], kwargs["value"]
+    if setting == DJPAY_SETTINGS_NAMESPACE:
+        settings._setup(explicit_overriden_settings=value)
+
+setting_changed.connect(reload_djoser_settings)

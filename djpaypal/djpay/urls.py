@@ -13,3 +13,4 @@ app_name = "djpay"
 urlpatterns = [
     path("", include(router.urls)),
 ]
+

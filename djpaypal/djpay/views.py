@@ -8,7 +8,7 @@ from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
 import requests
 import json
 from djpaypal.djpay.client import AuthorizationAPI
-from django.conf import settings
+from djpaypal.djpay.conf import settings
 from djpaypal.djpay.helpers import get_paypal_token
 class GenerateTokenViewSet(viewsets.ViewSet):
     """
@@ -19,7 +19,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
     """
 
     authentication_classes = [authentication.BasicAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = settings.PERMISSIONS.is_authenticated
 
     def list(self, request):
         """
@@ -28,7 +28,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         try:
             paypal_token = get_paypal_token(request)
             serializer = PaypalTokenSerializer(paypal_token)
-
+            
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except PaypalToken.DoesNotExist as e:
