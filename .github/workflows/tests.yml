@@ -54,7 +54,7 @@ jobs:
           DJANGO_SETTINGS_MODULE: core.settings
           DJANGO_SECRET_KEY: ${{ env.DJ_SECRET_KEY }}
         run: |
-            export DJANGO_SETTINGS_MODULE=core.settings.external
-            cd djpaypal 
+            cd djpaypal
+            export DJANGO_SETTINGS_MODULE=core.settings 
             python -B -m pytest
       

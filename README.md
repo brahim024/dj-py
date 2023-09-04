@@ -1,6 +1,7 @@
 # Welcome to dj-py
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/lint.yml/badge.svg)
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/tests.yml/badge.svg)
+![example workflow](https://github.com/brahim024/dj-py/actions/workflows/coverage.yml/badge.svg)
 
 ### Django PayPal REST API Integration: Building a Secure and Reliable Payment Gateway
 
