@@ -66,7 +66,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/reports/
           env_vars: OS,PYTHON
-          files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.xml
+          files: /home/runner/work/dj-py/dj-py/coverage.xml
           flags: tests
           
   
