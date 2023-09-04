@@ -1,7 +1,8 @@
 # Welcome to dj-py
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/lint.yml/badge.svg)
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/tests.yml/badge.svg)
-![example workflow](https://app.codecov.io/<3e885464-3193-4c4a-a2d4-3821ea06a032>/<brahim024>/<dj-py>)
+[![codecov.io](https://codecov.io/github/brahim024/Acc.>/dj-py/coverage.svg?branch=master)]
+(https://codecov.io/github/brahim024/Acc./dj-py?branch=master)
 
 ### Django PayPal REST API Integration: Building a Secure and Reliable Payment Gateway
 
