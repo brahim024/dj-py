@@ -55,24 +55,19 @@ jobs:
           DJANGO_SECRET_KEY: ${{ env.DJ_SECRET_KEY }}
         run: |
             export DJANGO_SETTINGS_MODULE=core.settings 
-            python3 -m pytest --junitxml=test-results.xml --cov=core --cov-report=xml djpaypal/djpay/tests
-            
-      - uses: actions/upload-artifact@v2
-        with:
-          name: backend-coverage
-          path: coverage.xml
-          
-  upload-to-codecov:
-    needs: backend-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v1
+            pip install codecov
+            pip install pytest-cov
+            pytest --cov=./ --cov-report=xml
+            codecov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
+          directory: ./coverage/reports/
+          env_vars: OS,PYTHON
+          files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.xml
+          flags: tests
+          
+  
           
