@@ -18,7 +18,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
     * Only authenticated users are able to access this view.
     """
 
-    authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = settings.AUTHENTICATION.basic_authentication
     permission_classes = settings.PERMISSIONS.is_authenticated
 
     def list(self, request):

@@ -36,6 +36,9 @@ default_settings = {
     "PERMISSIONS":ObjDict({
         "is_authenticated":["rest_framework.permissions.IsAuthenticated"]
     }),
+    "AUTHENTICATION":ObjDict({
+        "basic_authentication":["rest_framework.authentication.BasicAuthentication"]
+    })
     
 }
 
