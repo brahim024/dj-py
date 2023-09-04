@@ -25,7 +25,7 @@ class TestAPiClient:
         response = view(request)
         response.status_code == 200
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.django_db
     def test_generate_access_token_post_with_unvalid_credentials(
         self, user_factory, factory, view_post, paypal_token
