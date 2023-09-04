@@ -12,7 +12,7 @@ jobs:
     - name: Run tests and collect coverage
       run: |
         export DJANGO_SETTINGS_MODULE=core.settings
-        pytest --cov --cov-report=html:codecov .
+        pytest --cov djpaypal
     - name: Upload coverage reports to Codecov
       run: |
         # Replace `linux` below with the appropriate OS
