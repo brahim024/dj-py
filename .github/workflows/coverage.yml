@@ -1,5 +1,4 @@
-name: API workflow
-
+name: Code Coverage
 on: [push, pull_request]
 
 jobs:
@@ -12,7 +11,8 @@ jobs:
       run: pip install -r requirements.txt
     - name: Run tests and collect coverage
       run: |
-        cd djpaypal 
+        cd djpaypal
+        export DJANGO_SETTINGS_MODULE=core.settings
         pytest --cov .
     - name: Upload coverage reports to Codecov
       run: |
