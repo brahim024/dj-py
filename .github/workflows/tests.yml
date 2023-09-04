@@ -56,12 +56,14 @@ jobs:
         run: |
             cd djpaypal
             export DJANGO_SETTINGS_MODULE=core.settings 
-            python -B -m pytest
+            python3 -m pytest --junitxml=junit/test-results.xml --cov=djpaypal --cov-report=xml test
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: lcov.info
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      
+  upload-to-codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v1
