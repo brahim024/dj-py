@@ -9,7 +9,7 @@ on:
       - main  # or the branch you want to trigger the workflow on
 
 jobs:
-  tests:
+  backend-tests:
     name: Run tests
     runs-on: ubuntu-latest
     env:
@@ -56,9 +56,10 @@ jobs:
         run: |
             cd djpaypal
             export DJANGO_SETTINGS_MODULE=core.settings 
-            python3 -m pytest --junitxml=junit/test-results.xml --cov=djpaypal --cov-report=xml test
+            python3 -m pytest --junitxml=test-results.xml --cov=djpaypal --cov-report=xml test
 
   upload-to-codecov:
+    needs: backend-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
