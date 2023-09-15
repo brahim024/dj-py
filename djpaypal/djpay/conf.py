@@ -24,7 +24,7 @@ class ObjDict(dict):
     
 
 default_settings = {
-    "LIVE_MODE": True,
+    "LIVE_MODE": False,
     "SERIALIZERS":ObjDict(
         {
             "scope_serializer":"djpay.serializers.ScopeSerializer",
@@ -87,8 +87,10 @@ class Settings:
         """
         for setting_name, settings_value in overridden_settings.items():
             value = settings_value
+
             
             if isinstance(settings_value, dict):
+                print("Overrided Settings: ",setting_name,settings_value)
                 value = getattr(self, setting_name, {})
                 
                 value.update(ObjDict(settings_value))
@@ -104,10 +106,12 @@ class LazySettings(LazyObject):
 settings = LazySettings()
 
 
-def reload_djoser_settings(*args, **kwargs):
+def reload_djpaypal_settings(*args, **kwargs):
     global settings
+    print("Settings Changed...")
     setting, value = kwargs["setting"], kwargs["value"]
+    
     if setting == DJPAY_SETTINGS_NAMESPACE:
         settings._setup(explicit_overriden_settings=value)
 
-setting_changed.connect(reload_djoser_settings)
+setting_changed.connect(reload_djpaypal_settings)
