@@ -150,13 +150,9 @@ if DB_IS_AVAIL:
     }
 #  =============================================================================== Package Settings ======================================
 
-# GENERATE
 PACKABLE = False
-
-
-
+# OVERRIDED SETTINGS
 DJ_PAYPAL = {
-    "LIVE_MODE": False,
-    "AUTH_USER_MODEL": "auth.User",
-    "PAYPAL_TOKEN_APP_NAME":"upload_dict"
+    "PACKABLE" : False,
+    "PAYPAL_TOKEN_APP_NAME" : "upload_dict"
 }
