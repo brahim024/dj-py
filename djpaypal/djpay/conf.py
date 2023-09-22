@@ -2,7 +2,6 @@ from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
 from django.utils.functional import LazyObject
 from django.test.signals import setting_changed
-from . import signals
 
 
 DJPAY_SETTINGS_NAMESPACE = "DJ_PAYPAL"
@@ -21,46 +20,42 @@ class ObjDict(dict):
             val = super().__getattribute__(item)
 
         return val
-    
+
 
 default_settings = {
     "LIVE_MODE": False,
-    "SERIALIZERS":ObjDict(
+    "SERIALIZERS": ObjDict(
         {
-            "scope_serializer":"djpay.serializers.ScopeSerializer",
-            "paypal_token_serializers":"djpay.serializers.PaypalTokenSerializer",
-            "payal_info_serializers":"djpay.serializers.PaypalInfoSerializer",
+            "scope_serializer": "djpaypal.djpay.serializers.ScopeSerializer",
+            "paypal_token_serializers": "djpaypal.djpay.serializers.PaypalTokenSerializer",
+            "paypal_info_serializers": "djpaypal.djpay.serializers.PaypalInfoSerializer",
         }
-    
     ),
-    "PERMISSIONS":ObjDict({
-        "is_authenticated":["rest_framework.permissions.IsAuthenticated"]
-    }),
-    "AUTHENTICATION":ObjDict({
-        "basic_authentication":["rest_framework.authentication.BasicAuthentication"]
-    })
-    
+    "PERMISSIONS": ObjDict(
+        {"is_authenticated": ["rest_framework.permissions.IsAuthenticated"]}
+    ),
+    "AUTHENTICATION": ObjDict(
+        {"basic_authentication": ["rest_framework.authentication.BasicAuthentication"]}
+    ),
 }
 
 
 class Settings:
     # Trying to set explicit overriden settings
-    def __init__(self,default_settings, explicit_overriden_settings:dict = None):
+    def __init__(self, default_settings, explicit_overriden_settings: dict = None):
         if explicit_overriden_settings is None:
             explicit_overriden_settings = {}
 
         # get overriden setting form default django settings
         overriden_settings = (
-            getattr(django_settings,DJPAY_SETTINGS_NAMESPACE,{})
+            getattr(django_settings, DJPAY_SETTINGS_NAMESPACE, {})
             or explicit_overriden_settings
         )
         self._load_default_settings()
         self._override_settings(overriden_settings)
-        
-    
-    
+
     def _load_default_settings(self):
-        
+
         """
         Load default settings into object attributes.
 
@@ -71,8 +66,6 @@ class Settings:
         for setting_name, setting_value in default_settings.items():
             if setting_name.isupper():
                 setattr(self, setting_name, setting_value)
-
-
 
     def _override_settings(self, overridden_settings: dict):
 
@@ -88,13 +81,12 @@ class Settings:
         for setting_name, settings_value in overridden_settings.items():
             value = settings_value
 
-            
             if isinstance(settings_value, dict):
-                print("Overrided Settings: ",setting_name,settings_value)
+                print("Overrided Settings: ", setting_name, settings_value)
                 value = getattr(self, setting_name, {})
-                
+
                 value.update(ObjDict(settings_value))
-                print(value)
+
             setattr(self, setting_name, value)
 
 
@@ -110,8 +102,9 @@ def reload_djpaypal_settings(*args, **kwargs):
     global settings
     print("Settings Changed...")
     setting, value = kwargs["setting"], kwargs["value"]
-    
+
     if setting == DJPAY_SETTINGS_NAMESPACE:
         settings._setup(explicit_overriden_settings=value)
+
 
 setting_changed.connect(reload_djpaypal_settings)

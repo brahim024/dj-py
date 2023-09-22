@@ -10,6 +10,8 @@ import json
 from djpaypal.djpay.client import AuthorizationAPI
 from djpaypal.djpay.conf import settings
 from djpaypal.djpay.helpers import get_paypal_token
+
+
 class GenerateTokenViewSet(viewsets.ViewSet):
     """
     View to generate Paypal access token.
@@ -26,9 +28,9 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         Retrieve the access token information for the current user.
         """
         try:
-            paypal_token = get_paypal_token(request)
-            serializer = PaypalTokenSerializer(paypal_token)
-            
+            paypal_token = get_paypal_token()
+            serializer = settings.SERIALIZERS.paypal_token_serializers(paypal_token)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except PaypalToken.DoesNotExist as e:
@@ -38,9 +40,9 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         """
         Create a new access token using the provided client credentials.
         """
-        
+
         try:
-            get_paypal_token(request)
+            get_paypal_token()
         except PaypalToken.DoesNotExist as e:
             return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
@@ -50,15 +52,18 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         body_params = {"grant_type": grant_type}
 
         client = AuthorizationAPI(
-            api_client=get_paypal_token.client_id, api_secret=get_paypal_token.client_secret
+            api_client=get_paypal_token().client_id,
+            api_secret=get_paypal_token().client_secret,
         )
 
-        if get_paypal_token(request).has_valid_token():
+        if get_paypal_token().has_valid_token():
             res_data = client.post(body_params, url, timeout=20)
-            print("res_data: ",res_data)
+            print("res_data: ", res_data)
 
-            if isinstance(res_data,str):
-                return Response({"message":res_data},status=status.HTTP_400_BAD_REQUEST)
+            if isinstance(res_data, str):
+                return Response(
+                    {"message": res_data}, status=status.HTTP_400_BAD_REQUEST
+                )
             else:
 
                 response_data = json.loads(res_data.content)
@@ -81,10 +86,13 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                         return Response(serializer.data, status=status.HTTP_201_CREATED)
                     except Exception as e:
                         return Response(
-                            serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                            serializer.error_messages,
+                            status=status.HTTP_400_BAD_REQUEST,
                         )
 
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                )
 
         else:
             return Response(
@@ -94,9 +102,10 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                     Please change PAYPAL_TOKEN_APP_NAME\
                     to track another app or check current app credentials."
                 },
-                status=status.HTTP_401_UNAUTHORIZED
+                status=status.HTTP_401_UNAUTHORIZED,
             )
-        
+
+
 class TerminateToken(viewsets.ViewSet):
     """
     View to terminate Paypal access token.
@@ -108,9 +117,5 @@ class TerminateToken(viewsets.ViewSet):
     authentication_classes = [authentication.BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self,reuqest):
+    def create(self, reuqest):
         pass
-        
-
-    
-    
