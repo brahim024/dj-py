@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-q8n1_1c4*2w!)p=-zvvv-1fe%2vojmcaqb3vah*=d$nha-y8*&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,10 +39,12 @@ LOCAL_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "djpaypal.djpay",
-
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "drf_yasg"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "drf_yasg",
+]
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -152,7 +154,12 @@ if DB_IS_AVAIL:
 
 PACKABLE = False
 # OVERRIDED SETTINGS
-DJ_PAYPAL = {
-    "PACKABLE" : False,
-    "PAYPAL_TOKEN_APP_NAME" : "upload_dict"
+DJ_PAYPAL = {"PACKABLE": False, "PAYPAL_TOKEN_APP_NAME": "package"}
+
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Basic": {"type": "basic"},
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    }
 }

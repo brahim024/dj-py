@@ -24,7 +24,5 @@ class TestCustomConf:
     @patch("djpaypal.djpay.conf.Settings._load_default_settings")
     def test_settings_load_default_settings_is_called(self, mocker):
         settings = Settings(default_settings, None)
+        print(settings.__dict__)
         mocker.assert_called_once()
-        # assert hasattr(settings, "SERIALIZERS")
-
-        print(dict(settings.__dict__).keys())

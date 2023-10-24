@@ -2,7 +2,7 @@ from djpaypal.djpay.models import PaypalInfo, PaypalToken
 from djpaypal.djpay.conf import settings
 
 
-def get_paypal_token(request):
+def get_paypal_token():
     """
     Retrieve the PaypalToken object associated with the app name.
     """
