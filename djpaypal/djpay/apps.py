@@ -8,14 +8,11 @@ from django.dispatch import receiver
 def my_callback(sender, **kwargs):
     print("Setting changed!")
 
+
 class DjpayConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = None
-    if not hasattr(settings, 'PACKABLE') or settings.PACKABLE:
-        name = 'djpaypal.djpay'
+    if not hasattr(settings.DJ_PAYPAL, "PACKABLE") or settings.DJ_PAYPAL.PACKABLE:
+        name = "djpaypal.djpay"
     else:
-        name = 'djpaypal.djpay'  
-
-    
-    
-
+        name = "djpay"
