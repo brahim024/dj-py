@@ -28,7 +28,7 @@ jobs:
         --user
 
     - name: Build a binary wheel and a source tarball
-      run: |
+      run: >-
           cd djpaypal
           python3 -m build
     - name: Store the distribution packages
