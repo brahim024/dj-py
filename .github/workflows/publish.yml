@@ -25,16 +25,13 @@ jobs:
           pip install --upgrade pip
           pip install setuptools wheel
 
-    - name: Build a binary wheel and a source tarball
+    - name: Build binary wheel and a source tarball
       run: |
           cd djpaypal
-          python setup.py sdist bdist_wheel
+          python setup.py sdist
 
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-      run: |
-        cd djpaypal
-        python -m pip install twine
-        twine upload dist/*
+    - name: Publish distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.PYPI_TOKEN }}
+        repository_url: https://upload.pypi.org/legacy/
