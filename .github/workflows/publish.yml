@@ -37,4 +37,5 @@ jobs:
       run: |
         cd djpaypal
         python -m pip install twine
+        twine check dist/*
         twine upload dist/*
