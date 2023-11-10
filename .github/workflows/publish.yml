@@ -30,8 +30,12 @@ jobs:
           cd djpaypal
           python setup.py sdist
 
-    - name: Publish distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_TOKEN }}
-        repository_url: https://upload.pypi.org/legacy/
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        cd djpaypal
+        python -m pip install twine
+        twine check dist/*
+        twine upload dist/*
