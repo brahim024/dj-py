@@ -13,3 +13,4 @@ pytest-factoryboy
 drf-yasg
 flake8
 coverage==7.3.0
+tox
