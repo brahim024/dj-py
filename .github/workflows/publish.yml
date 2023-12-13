@@ -2,6 +2,8 @@ name: Publish Djpaypal 🐍 distribution 📦 to PyPI and TestPyPI
 
 on:
   push:
+    tags:
+      - "*"
     branches:
       - main  # or the branch you want to trigger the workflow on
 
