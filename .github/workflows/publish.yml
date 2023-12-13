@@ -2,7 +2,8 @@ name: Publish Djpaypal 🐍 distribution 📦 to PyPI and TestPyPI
 
 on:
   release:
-    types: [created]
+    types:
+      - released
 
 
 jobs:
