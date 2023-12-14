@@ -35,7 +35,7 @@ jobs:
         cd djpaypal
         python -m build
     - name: List contents of dist directory
-      run: ls -R dist
+      run: ls -R djpaypal/dist
       
     # - name: Publish package
     #   uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
