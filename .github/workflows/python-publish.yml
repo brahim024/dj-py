@@ -19,17 +19,23 @@ jobs:
     name: Publish package
     runs-on: ubuntu-latest
     steps:
-      - name: Install Dependencies
+      - name: Build package
+        run: |
+          cd djpaypal
+          python -m build
+
+      - name: List contents of dist directory
         run: ls -R dist
-      - uses: actions/download-artifact@v3
+        
+      # - uses: actions/download-artifact@v3
       
-        # with:
+      #   # with:
           
-        #   name: artifact
-        #   path: /dist/*
+      #   #   name: artifact
+      #   #   path: /dist/*
           
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          repository-url: https://test.pypi.org/legacy/
+      # - uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     repository-url: https://test.pypi.org/legacy/
