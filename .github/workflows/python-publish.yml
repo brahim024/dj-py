@@ -38,12 +38,12 @@ jobs:
     - name: List contents of dist directory
       run: ls -R djpaypal/dist
 
-    - name: Publish package
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          cd djpaypal
-          python -m pip install twine
-          twine check dist/*
-          twine upload dist/*
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        cd djpaypal
+        python -m pip install twine
+        twine check dist/*
+        twine upload dist/*
