@@ -46,4 +46,4 @@ jobs:
         cd djpaypal
         python -m pip install twine
         twine check dist/*
-        twine upload dist/* --repository-url https://test.pypi.org/legacy/
+        twine upload --verbose dist/* --repository-url https://test.pypi.org/legacy/
