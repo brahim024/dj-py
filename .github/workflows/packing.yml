@@ -85,7 +85,6 @@ jobs:
 
   publish:
     name: Publish package
-    if: startsWith(github.event.ref, 'refs/tags/v')
     needs:
       - test
     runs-on: ubuntu-latest
