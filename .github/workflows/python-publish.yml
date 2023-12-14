@@ -7,9 +7,10 @@
 # documentation.
 name: Build and publish Python 🐍 distributions 📦 to PyPI
 
-on:
-  release:
-    types: [published]
+on: push
+  # release:
+  #   types: [published]
+  
 
 
 
