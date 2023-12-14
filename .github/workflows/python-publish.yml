@@ -22,7 +22,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: artifact
-          path: ./dist/
+          path: djpaypal/dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
