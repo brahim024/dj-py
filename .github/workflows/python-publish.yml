@@ -19,10 +19,14 @@ jobs:
     name: Publish package
     runs-on: ubuntu-latest
     steps:
+      - name: Install Dependencies
+        run: ls -R djpaypal
       - uses: actions/download-artifact@v3
-        with:
-          name: artifact
-          path: /djpaypal/dist/*
+      
+        # with:
+          
+        #   name: artifact
+        #   path: /dist/*
           
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
