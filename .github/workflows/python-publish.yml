@@ -11,22 +11,12 @@ on:
   release:
     types: [published]
 
-  push:
-    branches:
-      - main  # or the branch you want to trigger the workflow on
 
-  pull_request:
-    branches:
-      - main  # or the branch you want to trigger the workflow on
 
-permissions:
-  contents: read
 
 jobs:
   publish:
     name: Publish package
-    needs:
-      - test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
