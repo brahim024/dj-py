@@ -5,7 +5,7 @@ with open("README.rst", "r") as f:
 
 setup(
     long_description_content_type="text/x-rst",
-    exclude_package_data={"": ["djpay/tests/*"]},
+    exclude_package_data={"": ["djpaypal/djpay/tests/*"]},
     package_dir={"djpaypal": "djpaypal"},
     packages=find_packages(where="app"),
     url="https://github.com/brahim024/dj-py",
