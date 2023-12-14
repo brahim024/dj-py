@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Dependencies
-        run: ls -R djpaypal
+        run: ls -R dist
       - uses: actions/download-artifact@v3
       
         # with:
