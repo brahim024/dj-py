@@ -48,7 +48,8 @@ jobs:
       name: pypi
       url: https://pypi.org/p/dj-py
     permissions:
-      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: read
+      id-token: write
     steps:
     # retrieve your distributions here
 
