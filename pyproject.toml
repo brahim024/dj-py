@@ -1,0 +1,134 @@
+[tool.poetry]
+name = "dj-py"
+version = "0.1.3"
+description = "REST implementation of Django Paypal Authentication System."
+authors = [
+    "Brahim024 <boughanm6@gmail.com>",
+]
+
+maintainers = [
+    "brahim boughanm <boughanm6@gmail.com>",
+]
+
+license = "MIT"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+repository = "https://github.com/brahim024/dj-py"
+readme = "README.rst"
+
+packages = [
+    { include = "djpaypal" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests="^2.7"
+djangorestframework= "^3.9"
+webauthn = { version = "<1.0", optional = true }
+django = ">=3.0.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.2"
+coverage = "^7.2.2"
+pytest-cov = "^4.0.0"
+pytest-django = "^4.5.2"
+tox = "^4.4.8"
+babel = "^2.12.1"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^6.1.3"
+toml = "^0.10.2"
+sphinx-rtd-theme = "^1.2.0"
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.cache
+    | \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.pytest_cache
+    | \.tox
+    | \.venv
+    | __pycache__
+    | _build
+    | buck-out
+    | build
+    | dist
+    | docs
+    | migrations
+  )/
+)
+'''
+
+[tool.ruff]
+select = ["E", "F"]
+ignore = []
+
+fixable = ["A", "B", "C", "D", "E", "F"]
+unfixable = []
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "migrations"
+]
+line-length = 88
+target-version = "py38"
+
+[tool.docformatter]
+recursive = true
+pre-summary-newline = true
+make-summary-multi-line = true
+wrap-summaries = 88
+wrap-descriptions = 88
+in-place = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_paths = "core"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
