@@ -34,7 +34,7 @@ repository = "https://github.com/brahim024/dj-py"
 readme = "README.rst"
 
 packages = [
-    { include = "djpaypal/djpay" },
+    { include = "djpay" },
 ]
 
 [tool.poetry.dependencies]
