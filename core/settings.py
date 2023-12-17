@@ -21,7 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-q8n1_1c4*2w!)p=-zvvv-1fe%2vojmcaqb3vah*=d$nha-y8*&"
+SECRET_KEY = (
+    "django-insecure-q8n1_1c4*2w!)p=-zvvv-1fe%2vojmcaqb3vah*=d$nha-y8*&"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +40,7 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djpaypal.djpay",
+    "djpay",
 ]
 
 THIRD_PARTY_APPS = [
@@ -154,7 +156,7 @@ if DB_IS_AVAIL:
 
 PACKABLE = False
 # OVERRIDED SETTINGS
-DJ_PAYPAL = {"PACKABLE": False, "PAYPAL_TOKEN_APP_NAME": "package"}
+DJ_PAYPAL = {"PAYPAL_TOKEN_APP_NAME": "package"}
 
 
 SWAGGER_SETTINGS = {

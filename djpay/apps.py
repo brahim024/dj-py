@@ -11,8 +11,4 @@ def my_callback(sender, **kwargs):
 
 class DjpayConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = None
-    if not hasattr(settings.DJ_PAYPAL, "PACKABLE") or settings.DJ_PAYPAL.PACKABLE:
-        name = "djpaypal.djpay"
-    else:
-        name = "djpay"
+    name = "djpay"

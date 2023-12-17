@@ -1,15 +1,15 @@
-from djpaypal.djpay.client import AuthorizationAPI
+from djpay.client import AuthorizationAPI
 from unittest.mock import patch, Mock, MagicMock
 import pytest
 from django.conf import settings
-from djpaypal.djpay.models import PaypalToken
+from djpay.models import PaypalToken
 import requests
 from requests.exceptions import Timeout, HTTPError, ConnectionError
 
 
 class TestClient:
     # test post return success when request is pass
-    @patch("djpaypal.djpay.client.requests.post")
+    @patch("djpay.client.requests.post")
     def test_post_method(self, mock_post):
         # Create a mock response
         mock_response = Mock()
@@ -45,13 +45,15 @@ class TestClient:
 
     # test post raise error time out
     # @pytest.mark.django_db
-    @patch("djpaypal.djpay.client.requests.post")
+    @patch("djpay.client.requests.post")
     def test_authorization_raise_timeout_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mocker.side_effect = Timeout("Timed Out")
 
         auth = AuthorizationAPI("auth", "api_secret")
-        result = auth.post({"grant_type", "client_credentials"}, "https://example.com")
+        result = auth.post(
+            {"grant_type", "client_credentials"}, "https://example.com"
+        )
 
         mocker.assert_called_once()
         # add assert called with
@@ -59,13 +61,15 @@ class TestClient:
         assert "Timed Out" in result
 
     # @pytest.mark.django_db
-    @patch("djpaypal.djpay.client.requests.post")
+    @patch("djpay.client.requests.post")
     def test_authorization_raise_connection_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mocker.side_effect = ConnectionError("Connection Error")
 
         auth = AuthorizationAPI("auth", "api_secret")
-        result = auth.post({"grant_type", "client_credentials"}, "https://example.com")
+        result = auth.post(
+            {"grant_type", "client_credentials"}, "https://example.com"
+        )
 
         mocker.assert_called_once()
         # add assert called with
@@ -73,14 +77,18 @@ class TestClient:
         assert "Connection Error" in result
 
     # test failed status code
-    @patch("djpaypal.djpay.client.requests.post")
+    @patch("djpay.client.requests.post")
     def test_authorization_raise_status_code_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mock_response = MagicMock(status_code=403)
-        mock_response.raise_for_status.side_effect = HTTPError("HttpError raised")
+        mock_response.raise_for_status.side_effect = HTTPError(
+            "HttpError raised"
+        )
         mocker.return_value = mock_response
 
         auth = AuthorizationAPI("auth", "api_secret")
-        result = auth.post({"grant_type", "client_credentials"}, "https://example.com")
+        result = auth.post(
+            {"grant_type", "client_credentials"}, "https://example.com"
+        )
         mocker.assert_called_once()
         assert "HttpError raised" in result

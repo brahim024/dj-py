@@ -1,5 +1,5 @@
 import pytest
-from djpaypal.djpay.serializers import (
+from djpay.serializers import (
     ScopeSerializer,
     PaypalTokenSerializer,
     PaypalInfoSerializer,
@@ -7,16 +7,15 @@ from djpaypal.djpay.serializers import (
 
 
 class TestSerializer:
-
     @pytest.mark.django_db
-    def test_scope_serializer(self,single_scope_factory):
+    def test_scope_serializer(self, single_scope_factory):
         scope = single_scope_factory.create()
         serializer = ScopeSerializer(scope)
         assert serializer.data["name"] == scope.name
         assert serializer.data == {"id": 1, "name": scope.name}
 
     @pytest.mark.django_db
-    def test_paypal_token_serializer(self,paypal_token_factory):
+    def test_paypal_token_serializer(self, paypal_token_factory):
         pay_token = paypal_token_factory.create()
         serializer = PaypalTokenSerializer(pay_token)
         assert serializer.data == {

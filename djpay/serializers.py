@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from djpaypal.djpay.models import Scope, PaypalToken, PaypalInfo
+from djpay.models import Scope, PaypalToken, PaypalInfo
 from django.contrib.auth.models import User
 
 

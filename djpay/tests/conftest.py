@@ -2,10 +2,10 @@ import pytest
 
 from rest_framework.test import APIRequestFactory
 
-from djpaypal.djpay.views import GenerateTokenViewSet
+from djpay.views import GenerateTokenViewSet
 
 from pytest_factoryboy import register
-from djpaypal.djpay.tests.factories import (
+from djpay.tests.factories import (
     ScopeFactory,
     PaypalTokenFactory,
     PaypalInfoFactory,

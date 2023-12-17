@@ -14,7 +14,9 @@ class ObjDict(dict):
             if isinstance(val, str):
                 val = import_string(val)
             elif isinstance(val, (list, tuple)):
-                val = [import_string(v) if isinstance(v, str) else v for v in val]
+                val = [
+                    import_string(v) if isinstance(v, str) else v for v in val
+                ]
             self[item] = val
         except KeyError:
             val = super().__getattribute__(item)
@@ -35,14 +37,20 @@ default_settings = {
         {"is_authenticated": ["rest_framework.permissions.IsAuthenticated"]}
     ),
     "AUTHENTICATION": ObjDict(
-        {"basic_authentication": ["rest_framework.authentication.BasicAuthentication"]}
+        {
+            "basic_authentication": [
+                "rest_framework.authentication.BasicAuthentication"
+            ]
+        }
     ),
 }
 
 
 class Settings:
     # Trying to set explicit overriden settings
-    def __init__(self, default_settings, explicit_overriden_settings: dict = None):
+    def __init__(
+        self, default_settings, explicit_overriden_settings: dict = None
+    ):
         if explicit_overriden_settings is None:
             explicit_overriden_settings = {}
 
@@ -55,7 +63,6 @@ class Settings:
         self._override_settings(overriden_settings)
 
     def _load_default_settings(self):
-
         """
         Load default settings into object attributes.
 
@@ -68,7 +75,6 @@ class Settings:
                 setattr(self, setting_name, setting_value)
 
     def _override_settings(self, overridden_settings: dict):
-
         """
         Override object settings using provided dictionary.
 

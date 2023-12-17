@@ -3,13 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from djpaypal.djpay.models import PaypalInfo, PaypalToken
-from .serializers import PaypalInfoSerializer, PaypalTokenSerializer
-import requests
+from djpay.models import PaypalInfo, PaypalToken
+from .serializers import PaypalInfoSerializer
 import json
-from djpaypal.djpay.client import AuthorizationAPI
-from djpaypal.djpay.conf import settings
-from djpaypal.djpay.helpers import get_paypal_token
+from djpay.client import AuthorizationAPI
+from djpay.conf import settings
+from djpay.helpers import get_paypal_token
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
@@ -29,12 +28,16 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         """
         try:
             paypal_token = get_paypal_token()
-            serializer = settings.SERIALIZERS.paypal_token_serializers(paypal_token)
+            serializer = settings.SERIALIZERS.paypal_token_serializers(
+                paypal_token
+            )
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except PaypalToken.DoesNotExist as e:
-            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": str(e)}, status=status.HTTP_404_NOT_FOUND
+            )
 
     def create(self, request):
         """
@@ -44,7 +47,9 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         try:
             get_paypal_token()
         except PaypalToken.DoesNotExist as e:
-            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": str(e)}, status=status.HTTP_404_NOT_FOUND
+            )
 
         info = PaypalInfo.get_link_base()
         grant_type = "client_credentials"
@@ -65,7 +70,6 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                     {"message": res_data}, status=status.HTTP_400_BAD_REQUEST
                 )
             else:
-
                 response_data = json.loads(res_data.content)
                 scopes = [s for s in response_data["scope"].split(" ")]
 
@@ -83,7 +87,9 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 if serializer.is_valid(raise_exception=True):
                     serializer.create(validated_data=data)
                     try:
-                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                        return Response(
+                            serializer.data, status=status.HTTP_201_CREATED
+                        )
                     except Exception as e:
                         return Response(
                             serializer.error_messages,
@@ -91,7 +97,8 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                         )
 
                 return Response(
-                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                    serializer.error_messages,
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
         else:
