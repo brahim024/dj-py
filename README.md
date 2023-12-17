@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     (...),
     'rest_framework',
-    'djpaypal.djpy',
+    'djpy',
     
 )
 ```
