@@ -1,5 +1,5 @@
 """
-URL configuration for core project.
+URL configuration for testproject project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -31,7 +31,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="MIT License"),
     ),
     public=True,
-    urlconf="core.urls",
+    urlconf="testproject.urls",
     permission_classes=(permissions.AllowAny,),
 )
 

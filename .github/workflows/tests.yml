@@ -51,10 +51,10 @@ jobs:
 
       - name: Run tests
         env:
-          DJANGO_SETTINGS_MODULE: core.settings
+          DJANGO_SETTINGS_MODULE: testproject.settings
           DJANGO_SECRET_KEY: ${{ env.DJ_SECRET_KEY }}
         run: |
-            export DJANGO_SETTINGS_MODULE=core.settings
+            export DJANGO_SETTINGS_MODULE=testproject.settings
             pip install codecov
             pip install pytest-cov
             pytest --cov=./ --cov-report=xml
