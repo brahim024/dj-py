@@ -34,7 +34,7 @@ repository = "https://github.com/brahim024/dj-py"
 readme = "README.rst"
 
 packages = [
-    { include = "djpaypal/djpay" },
+    { include = "djpay" },
 ]
 
 [tool.poetry.dependencies]
@@ -126,9 +126,9 @@ in-place = true
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-DJANGO_SETTINGS_MODULE = "core.settings"
-python_paths = "core"
+DJANGO_SETTINGS_MODULE = "testproject.settings"
+python_paths = "testproject"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-testproject"]
+build-backend = "poetry.testproject.masonry.api"
