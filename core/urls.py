@@ -31,7 +31,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="MIT License"),
     ),
     public=True,
-    urlconf="urls",
+    urlconf="core.urls",
     permission_classes=(permissions.AllowAny,),
 )
 
@@ -39,7 +39,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
-    # path("djpay/", include("djpay.urls", namespace="djpay")),
+    path("djpay/", include("djpay.urls", namespace="djpay")),
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),
