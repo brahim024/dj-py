@@ -1,5 +1,5 @@
-from djpay.models import PaypalInfo, PaypalToken
-from djpay.conf import settings
+from djpay.auth.models import PaypalInfo, PaypalToken
+from djpay.auth.conf import settings
 
 
 def get_paypal_token():

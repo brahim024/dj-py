@@ -2,8 +2,8 @@ import pytest
 from unittest.mock import patch
 
 # from django.utils import module_loading
-from djpay.conf import ObjDict, Settings
-from djpay.conf import default_settings
+from djpay.auth.conf import ObjDict, Settings
+from djpay.auth.conf import default_settings
 
 
 class TestCustomConf:
@@ -12,15 +12,15 @@ class TestCustomConf:
         obj = ObjDict(
             {
                 "permission": [
-                    "djpay.serializers.ScopeSerializer",
-                    "djay.serializers.PaypalTokenSerializer",
+                    "djpay.auth.serializers.ScopeSerializer",
+                    "djay.auth.serializers.PaypalTokenSerializer",
                 ]
             }
         )
         # assert mocker.import_string.assert_called_once()
         assert type(obj) != str
 
-    @patch("djpay.conf.Settings._load_default_settings")
+    @patch("djpay.auth.conf.Settings._load_default_settings")
     def test_settings_load_default_settings_is_called(self, mocker):
         settings = Settings(default_settings, None)
         print(settings.__dict__)

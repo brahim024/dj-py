@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,7 +40,7 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djpay",
+    "djpay.auth",
 ]
 
 THIRD_PARTY_APPS = [
@@ -156,7 +156,10 @@ if DB_IS_AVAIL:
 
 PACKABLE = False
 # OVERRIDED SETTINGS
-DJ_PAYPAL = {"PACKABLE": False, "PAYPAL_TOKEN_APP_NAME": "package"}
+AUTH_USER_MODEL = "paypal_authentication.User"
+DJ_PAYPAL = {
+    "PAYPAL_TOKEN_APP_NAME": "package",
+}
 
 
 SWAGGER_SETTINGS = {
