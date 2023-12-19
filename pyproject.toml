@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dj-py"
-version = "0.1.5"
+version = "0.1.6"
 description = "REST implementation of Django Paypal Authentication System."
 authors = [
     "Brahim024 <boughanm6@gmail.com>",
@@ -126,9 +126,9 @@ in-place = true
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-DJANGO_SETTINGS_MODULE = "testproject.settings"
-python_paths = "testproject"
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_paths = "core"
 
 [build-system]
-requires = ["poetry-testproject"]
-build-backend = "poetry.testproject.masonry.api"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
