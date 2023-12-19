@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from django.conf import settings
 from django.core.signals import setting_changed
 from django.dispatch import receiver
 
@@ -9,6 +8,7 @@ def my_callback(sender, **kwargs):
     print("Setting changed!")
 
 
-class DjpayConfig(AppConfig):
+class AuthConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "djpay.auth"
+    label = "paypal_authentication"

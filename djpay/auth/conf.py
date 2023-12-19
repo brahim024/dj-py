@@ -28,9 +28,9 @@ default_settings = {
     "LIVE_MODE": False,
     "SERIALIZERS": ObjDict(
         {
-            "scope_serializer": "djpaypal.djpay.serializers.ScopeSerializer",
-            "paypal_token_serializers": "djpaypal.djpay.serializers.PaypalTokenSerializer",
-            "paypal_info_serializers": "djpaypal.djpay.serializers.PaypalInfoSerializer",
+            "scope_serializer": "djpay.auth.serializers.ScopeSerializer",
+            "paypal_token_serializers": "djpay.auth.serializers.PaypalTokenSerializer",
+            "paypal_info_serializers": "djpay.auth.serializers.PaypalInfoSerializer",
         }
     ),
     "PERMISSIONS": ObjDict(
@@ -43,6 +43,7 @@ default_settings = {
             ]
         }
     ),
+    "AUTH_USER_MODEL": "djpay.auth.models.User",
 }
 
 

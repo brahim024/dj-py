@@ -1,6 +1,12 @@
 from django.db import models
 import requests
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    class Meta:
+        app_label = "paypal_authentication"
 
 
 # Create your models here.
@@ -8,7 +14,7 @@ class Scope(models.Model):
     name = models.CharField(max_length=255)
 
     class Meta:
-        app_label = "djpay"
+        app_label = "paypal_authentication"
 
     def __str__(self):
         return self.name
@@ -23,7 +29,7 @@ class PaypalToken(models.Model):
     client_secret = models.CharField(max_length=255)
 
     class Meta:
-        app_label = "djpay"
+        app_label = "paypal_authentication"
 
     def __str__(self):
         return self.app_name
@@ -64,7 +70,7 @@ class PaypalInfo(models.Model):
     nonce = models.CharField(max_length=255)
 
     class Meta:
-        app_label = "djpay"
+        app_label = "paypal_authentication"
 
     @classmethod
     def get_link_base(cls):

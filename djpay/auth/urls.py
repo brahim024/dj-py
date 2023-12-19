@@ -7,7 +7,7 @@ from rest_framework.routers import SimpleRouter
 router = SimpleRouter()
 router.register(r"generate-token", GenerateTokenViewSet, basename="token")
 
-app_name = "djpay"
+app_name = "auth"
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
