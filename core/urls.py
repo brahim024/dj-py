@@ -21,6 +21,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
+# THIRD PARTY URLS
 schema_view = get_schema_view(
     openapi.Info(
         title="API Documentation",
@@ -35,11 +36,11 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-
+# LOCAL URLS
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
-    path("djpay/", include("djpay.urls", namespace="djpay")),
+    path("djpay/", include("djpay.auth.urls", namespace="djpay")),
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),

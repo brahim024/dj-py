@@ -11,4 +11,4 @@ def my_callback(sender, **kwargs):
 
 class DjpayConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "djpay"
+    name = "djpay.auth"

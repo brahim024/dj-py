@@ -3,12 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from djpay.models import PaypalInfo, PaypalToken
+from djpay.auth.models import PaypalInfo, PaypalToken
 from .serializers import PaypalInfoSerializer
 import json
-from djpay.client import AuthorizationAPI
-from djpay.conf import settings
-from djpay.helpers import get_paypal_token
+from djpay.auth.client import AuthorizationAPI
+from djpay.auth.conf import settings
+from djpay.auth.helpers import get_paypal_token
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
