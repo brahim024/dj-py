@@ -40,7 +40,7 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djpay",
+    # "djpay"
 ]
 
 THIRD_PARTY_APPS = [
