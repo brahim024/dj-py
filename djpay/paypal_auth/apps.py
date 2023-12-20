@@ -10,5 +10,5 @@ def my_callback(sender, **kwargs):
 
 class AuthConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "djpay.auth"
+    name = "djpay.paypal_auth"
     label = "paypal_authentication"

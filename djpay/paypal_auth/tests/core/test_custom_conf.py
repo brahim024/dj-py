@@ -2,8 +2,8 @@ import pytest
 from unittest.mock import patch
 
 # from django.utils import module_loading
-from djpay.auth.conf import ObjDict, Settings
-from djpay.auth.conf import default_settings
+from djpay.paypal_auth.conf import ObjDict, Settings
+from djpay.paypal_auth.conf import default_settings
 
 
 class TestCustomConf:
