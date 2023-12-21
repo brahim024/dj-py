@@ -1,5 +1,5 @@
 import pytest
-from djpay.auth.serializers import (
+from djpay.paypal_auth.serializers import (
     ScopeSerializer,
     PaypalTokenSerializer,
     PaypalInfoSerializer,

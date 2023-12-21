@@ -40,7 +40,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
-    path("djpay/", include("djpay.auth.urls", namespace="djpay")),
+    path("djpay/", include("djpay.paypal_auth.urls", namespace="djpay")),
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),

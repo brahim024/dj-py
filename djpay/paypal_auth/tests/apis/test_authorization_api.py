@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 from django.test import Client
 from rest_framework.test import force_authenticate
-from djpay.auth.models import PaypalInfo
+from djpay.paypal_auth.models import PaypalInfo
 import requests
 from unittest.mock import patch
 from requests.exceptions import ConnectionError

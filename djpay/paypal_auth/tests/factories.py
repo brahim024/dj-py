@@ -1,5 +1,5 @@
 import factory
-from djpay.auth.models import Scope, PaypalToken, PaypalInfo
+from djpay.paypal_auth.models import Scope, PaypalToken, PaypalInfo
 from faker import Faker
 from django.contrib.auth.models import User
 

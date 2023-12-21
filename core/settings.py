@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +41,7 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djpay.auth",
+    "djpay.paypal_auth",
 ]
 
 THIRD_PARTY_APPS = [
@@ -155,11 +156,10 @@ if DB_IS_AVAIL:
 #  =============================================================================== Package Settings ======================================
 
 PACKABLE = False
+AUTH_USER_MODEL = "auth.User"
+
 # OVERRIDED SETTINGS
-AUTH_USER_MODEL = "paypal_authentication.User"
-DJ_PAYPAL = {
-    "PAYPAL_TOKEN_APP_NAME": "package",
-}
+DJ_PAYPAL = {"PAYPAL_TOKEN_APP_NAME": "package"}
 
 
 SWAGGER_SETTINGS = {
