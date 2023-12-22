@@ -1,4 +1,4 @@
-from djpay.paypal_auth.client import AuthorizationAPI
+from djpay.utils.client import AuthorizationAPI
 from unittest.mock import patch, Mock, MagicMock
 import pytest
 from django.conf import settings
@@ -9,7 +9,7 @@ from requests.exceptions import Timeout, HTTPError, ConnectionError
 
 class TestClient:
     # test post return success when request is pass
-    @patch("djpay.paypal_auth.client.requests.post")
+    @patch("djpay.utils.client.requests.post")
     def test_post_method(self, mock_post):
         # Create a mock response
         mock_response = Mock()
@@ -45,7 +45,7 @@ class TestClient:
 
     # test post raise error time out
     # @pytest.mark.django_db
-    @patch("djpay.paypal_auth.client.requests.post")
+    @patch("djpay.utils.client.requests.post")
     def test_authorization_raise_timeout_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mocker.side_effect = Timeout("Timed Out")
@@ -61,7 +61,7 @@ class TestClient:
         assert "Timed Out" in result
 
     # @pytest.mark.django_db
-    @patch("djpay.paypl_auth.client.requests.post")
+    @patch("djpay.utils.client.requests.post")
     def test_authorization_raise_connection_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mocker.side_effect = ConnectionError("Connection Error")
@@ -77,7 +77,7 @@ class TestClient:
         assert "Connection Error" in result
 
     # test failed status code
-    @patch("djpay.paypal_auth.client.requests.post")
+    @patch("djpay.utils.client.requests.post")
     def test_authorization_raise_status_code_error(self, mocker):
         mocker.exceptions = requests.exceptions
         mock_response = MagicMock(status_code=403)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dj-py"
-version = "0.1.6"
+version = "0.1.7"
 description = "REST implementation of Django Paypal Authentication System."
 authors = [
     "Brahim024 <boughanm6@gmail.com>",
