@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .api.authorize.models import Scope, PaypalToken, PaypalInfo
-from django.conf import settings
-from django.apps import apps
+from .models import Scope, PaypalToken, PaypalInfo
 
 
 # Register your models here.
