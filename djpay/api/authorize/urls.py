@@ -7,7 +7,7 @@ from rest_framework.routers import SimpleRouter
 router = SimpleRouter()
 router.register(r"generate-token", GenerateTokenViewSet, basename="token")
 
-app_name = "auth"
+app_name = "authorize"
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
