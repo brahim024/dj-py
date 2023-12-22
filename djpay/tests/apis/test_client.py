@@ -2,7 +2,7 @@ from djpay.paypal_auth.client import AuthorizationAPI
 from unittest.mock import patch, Mock, MagicMock
 import pytest
 from django.conf import settings
-from djpay.paypal_auth.models import PaypalToken
+from djpay.api.authorize.models import PaypalToken
 import requests
 from requests.exceptions import Timeout, HTTPError, ConnectionError
 

@@ -1,4 +1,4 @@
-from djpay.paypal_auth.models import Scope, PaypalToken, PaypalInfo
+from djpay.api.authorize.models import Scope, PaypalToken, PaypalInfo
 from django.conf import settings
 from django.contrib.auth.models import User
 import pytest

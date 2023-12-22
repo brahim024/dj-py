@@ -8,7 +8,7 @@ def my_callback(sender, **kwargs):
     print("Setting changed!")
 
 
-class AuthConfig(AppConfig):
+class SubscriptionsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "djpay.paypal_auth"
-    label = "paypal_authentication"
+    name = "djpay.api.subscriptions"
+    # label = "paypal_authentication"

@@ -1,6 +1,6 @@
 from django.db import models
 import requests
-from djpay.paypal_auth.conf import settings as settings
+from djpay.api.authorize.conf import settings as settings
 from django.contrib.auth import get_user_model, update_session_auth_hash
 
 
