@@ -3,14 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from djpay.paypal_auth.models import PaypalInfo, PaypalToken
+from djpay.api.authorize.models import PaypalInfo, PaypalToken
 from .serializers import PaypalInfoSerializer
 import json
-from djpay.paypal_auth.client import AuthorizationAPI
-from djpay.paypal_auth.conf import settings as settings
+from djpay.utils.client import AuthorizationAPI
+from djpay.api.authorize.conf import settings as settings
 from django.conf import settings as django_settings
 
-from djpay.paypal_auth.helpers import get_paypal_token
+from djpay.utils.helpers import get_paypal_token
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
@@ -45,7 +45,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         """
         Create a new access token using the provided client credentials.
         """
-        print("DJ_PAYPAL: ", django_settings.DJ_PAYPAL)
+        print("DJ_PAYPAL: ", django_settings.DJ_PAYPAL[""])
         try:
             get_paypal_token()
         except PaypalToken.DoesNotExist as e:

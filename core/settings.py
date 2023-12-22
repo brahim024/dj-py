@@ -41,7 +41,8 @@ LOCAL_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djpay.paypal_auth",
+    "djpay.api.authorize",
+    "djpay.api.subscriptions",
 ]
 
 THIRD_PARTY_APPS = [

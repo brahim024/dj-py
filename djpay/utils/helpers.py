@@ -1,4 +1,4 @@
-from djpay.paypal_auth.models import PaypalInfo, PaypalToken
+from djpay.api.authorize.models import PaypalInfo, PaypalToken
 from django.conf import settings
 
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Scope, PaypalToken, PaypalInfo
+from .api.authorize.models import Scope, PaypalToken, PaypalInfo
 from django.conf import settings
 from django.apps import apps
 
