@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
-from djpay.api.authorize.models import PaypalInfo, PaypalToken
+from djpay.api.authorize.models import PaypalInfo, PaypalToken, Scope
 from .serializers import PaypalInfoSerializer
 import json
 from djpay.utils.client import AuthorizationAPI
@@ -11,11 +11,12 @@ from djpay.api.authorize.conf import settings as settings
 from django.conf import settings as django_settings
 
 from djpay.utils.helpers import get_paypal_token
+from django.forms.models import model_to_dict
 
 
-class GenerateTokenViewSet(viewsets.ViewSet):
+class PaypalAppTokenViewSet(viewsets.ViewSet):
     """
-    View to generate Paypal access token.
+    View to display your paypal token app informations.
 
     * Requires basic authentication.
     * Only authenticated users are able to access this view.
@@ -41,11 +42,18 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 {"detail": str(e)}, status=status.HTTP_404_NOT_FOUND
             )
 
-    def create(self, request):
-        """
-        Create a new access token using the provided client credentials.
-        """
-        print("DJ_PAYPAL: ", django_settings.DJ_PAYPAL[""])
+
+class PaypalInfoViewSet(viewsets.ModelViewSet):
+    queryset = PaypalInfo.objects.all()
+    serializer_class = PaypalInfoSerializer
+
+    def get_queryset(self):
+        # Prefetch the related scopes for better performance
+        return PaypalInfo.objects.prefetch_related("scope").all()
+
+
+class GenerateTokenViewSet(viewsets.ViewSet):
+    def create(self, request, *args, **kwargs):
         try:
             get_paypal_token()
         except PaypalToken.DoesNotExist as e:
@@ -56,7 +64,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         info = PaypalInfo.get_link_base()
         grant_type = "client_credentials"
         url = info + "/v1/oauth2/token"
-        body_params = {"grant_type": grant_type}
+        extra = {"grant_type": grant_type}
 
         client = AuthorizationAPI(
             api_client=get_paypal_token().client_id,
@@ -64,8 +72,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         )
 
         if get_paypal_token().has_valid_token():
-            res_data = client.post(body_params, url, timeout=20)
-            print("res_data: ", res_data)
+            res_data = client.post(url, extra, timeout=10)
 
             if isinstance(res_data, str):
                 return Response(
@@ -73,43 +80,43 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                 )
             else:
                 response_data = json.loads(res_data.content)
-                scopes = [s for s in response_data["scope"].split(" ")]
+
+                # Create Scope instances
+                scopes = []
+                for scope_name in response_data["scope"].split(" "):
+                    scopes.append(scope_name)
 
                 data = {
                     "user": request.user.id,
-                    "scope": scopes,
                     "access_token": response_data["access_token"],
                     "token_type": response_data["token_type"],
+                    "scope": scopes,
                     "app_id": response_data["app_id"],
                     "expires_in": response_data["expires_in"],
                     "nonce": response_data["nonce"],
                 }
+                print(data)
 
+                # Create PaypalInfo instance and associate scopes
                 serializer = PaypalInfoSerializer(data=data)
-                if serializer.is_valid(raise_exception=True):
-                    serializer.create(validated_data=data)
-                    try:
-                        return Response(
-                            serializer.data, status=status.HTTP_201_CREATED
-                        )
-                    except Exception as e:
-                        return Response(
-                            serializer.error_messages,
-                            status=status.HTTP_400_BAD_REQUEST,
-                        )
 
-                return Response(
-                    serializer.error_messages,
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(
+                        serializer.data, status=status.HTTP_201_CREATED
+                    )
+                else:
+                    return Response(
+                        serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                    )
 
         else:
             return Response(
                 {
-                    "message": f"Your PaypalToken with name {settings.PAYPAL_TOKEN_APP_NAME}\
-                     Has Not Valid credentials.\
-                    Please change PAYPAL_TOKEN_APP_NAME\
-                    to track another app or check current app credentials."
+                    "message": f"Your PaypalToken with name {settings.PAYPAL_TOKEN_APP_NAME} \
+                        Has Not Valid credentials. \
+                        Please change PAYPAL_TOKEN_APP_NAME \
+                        to track another app or check current app credentials."
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )

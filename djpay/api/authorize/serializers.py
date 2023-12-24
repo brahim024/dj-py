@@ -1,12 +1,15 @@
 from rest_framework import serializers
 from djpay.api.authorize.models import Scope, PaypalToken, PaypalInfo
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+import json
+
+User = get_user_model()
 
 
 class ScopeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Scope
-        fields = "__all__"
+        fields = ["name"]
 
 
 class PaypalTokenSerializer(serializers.ModelSerializer):
@@ -16,7 +19,8 @@ class PaypalTokenSerializer(serializers.ModelSerializer):
 
 
 class PaypalInfoSerializer(serializers.ModelSerializer):
-    scope = serializers.ListField(child=serializers.CharField(max_length=255))
+    # user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    scope = ScopeSerializer(many=True)
 
     class Meta:
         model = PaypalInfo
@@ -24,8 +28,8 @@ class PaypalInfoSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         scopes_data = validated_data.pop("scope")
-        user_id = validated_data.pop("user")  # Retrieve the user ID
-
+        user_id = validated_data.pop("user").id  # Retrieve the user ID
+        print(user_id)
         # Get the User instance corresponding to the user ID
         user = User.objects.get(id=user_id)
         validated_data["user"] = user
@@ -37,5 +41,4 @@ class PaypalInfoSerializer(serializers.ModelSerializer):
             paypal_info.scope.add(scope)
 
         paypal_info.save()
-
         return paypal_info
