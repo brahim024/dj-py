@@ -52,7 +52,10 @@ class PaypalInfoViewSet(viewsets.ModelViewSet):
         return PaypalInfo.objects.prefetch_related("scope").all()
 
 
-class GenerateTokenViewSet(viewsets.ViewSet):
+class GenerateTokenViewSet(viewsets.ModelViewSet):
+    queryset = PaypalInfo.objects.all()
+    serializer_class = PaypalInfoSerializer
+
     def create(self, request, *args, **kwargs):
         try:
             get_paypal_token()
@@ -72,7 +75,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
         )
 
         if get_paypal_token().has_valid_token():
-            res_data = client.post(url, extra, timeout=10)
+            res_data = client.post(url, extra)
 
             if isinstance(res_data, str):
                 return Response(
@@ -90,7 +93,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
                     "user": request.user.id,
                     "access_token": response_data["access_token"],
                     "token_type": response_data["token_type"],
-                    "scope": scopes,
+                    "scope": [{"name": s} for s in scopes],
                     "app_id": response_data["app_id"],
                     "expires_in": response_data["expires_in"],
                     "nonce": response_data["nonce"],

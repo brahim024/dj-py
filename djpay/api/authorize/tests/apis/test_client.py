@@ -28,7 +28,7 @@ class TestClient:
 
         # Assert that the mock was called with the correct arguments
         mock_post.assert_called_once_with(
-            "https://example.com", {}, auth=("client", "secret"), timeout=10
+            "https://example.com", {}, auth=("client", "secret")
         )
 
         # Assert that the response is as expected
@@ -39,7 +39,7 @@ class TestClient:
         # Create an instance of AuthorizationAPI
         api = AuthorizationAPI(api_client="client", api_secret="secret")
         with pytest.raises(Exception) as ex:
-            api.post(data={})
+            api.post(base_url="", data={})
 
         assert "Invalid URL" in str(ex.value)
 

@@ -14,13 +14,10 @@ class AuthorizationAPI(PaypalClient):
     api_client: str
     api_secret: str
 
-    def post(self, base_url, data, *args, **kwargs):
+    def post(self, base_url, data):
         try:
             response = requests.post(
-                base_url,
-                data,
-                auth=(self.api_client, self.api_secret),
-                timeout=kwargs["timeout"],
+                base_url, data, auth=(self.api_client, self.api_secret)
             )
             response.raise_for_status()
 
