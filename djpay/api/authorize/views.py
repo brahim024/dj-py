@@ -75,7 +75,7 @@ class GenerateTokenViewSet(viewsets.ModelViewSet):
         )
 
         if get_paypal_token().has_valid_token():
-            res_data = client.post(url, extra, timeout=10)
+            res_data = client.post(url, extra)
 
             if isinstance(res_data, str):
                 return Response(

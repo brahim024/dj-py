@@ -31,7 +31,7 @@ class TestAPiClient:
         self, user_factory, factory, view_post, paypal_token
     ):
         assert PaypalInfo.objects.all().count() == 0
-        request = factory.post(reverse("djpay:token-create"))
+        request = factory.post(reverse("djpay:generate_token-post"))
         force_authenticate(request, user=user_factory.create())
         view_post(request)
         assert PaypalInfo.objects.all().count() == 0
