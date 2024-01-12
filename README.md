@@ -1,4 +1,5 @@
 # Welcome to dj-py
+![PyPI - Version](https://img.shields.io/pypi/v/dj-py?color=blue)
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/lint.yml/badge.svg)
 ![example workflow](https://github.com/brahim024/dj-py/actions/workflows/tests.yml/badge.svg)
 [![codecov](https://codecov.io/gh/brahim024/dj-py/graph/badge.svg?token=Y175Y76JEE)](https://codecov.io/gh/brahim024/dj-py)
@@ -50,7 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     (...),
     'rest_framework',
-    'djpy',
+    'djpay',
     
 )
 ```
