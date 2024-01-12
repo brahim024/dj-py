@@ -68,6 +68,9 @@ class PaypalInfoViewSet(viewsets.ViewSet):
 
 
 class GenerateTokenViewSet(viewsets.ViewSet):
+    authentication_classes = settings.AUTHENTICATION.basic_authentication
+    permission_classes = settings.PERMISSIONS.is_authenticated
+
     def create(self, request, *args, **kwargs):
         try:
             get_paypal_token()
