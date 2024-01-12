@@ -12,6 +12,7 @@ from django.conf import settings as django_settings
 
 from djpay.utils.helpers import get_paypal_token
 from django.forms.models import model_to_dict
+from rest_framework.decorators import action
 
 
 class PaypalAppTokenViewSet(viewsets.ViewSet):
@@ -43,19 +44,30 @@ class PaypalAppTokenViewSet(viewsets.ViewSet):
             )
 
 
-class PaypalInfoViewSet(viewsets.ModelViewSet):
-    queryset = PaypalInfo.objects.all()
-    serializer_class = PaypalInfoSerializer
+class PaypalInfoViewSet(viewsets.ViewSet):
+    authentication_classes = settings.AUTHENTICATION.basic_authentication
+    permission_classes = settings.PERMISSIONS.is_authenticated
 
-    def get_queryset(self):
-        # Prefetch the related scopes for better performance
-        return PaypalInfo.objects.prefetch_related("scope").all()
+    def list(self, request):
+        """
+        Retrieve the access token information for the current user.
+        """
+        try:
+            obj = PaypalInfo.objects.prefetch_related("scope").all()
+            serializer = PaypalInfoSerializer(obj)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except PaypalToken.DoesNotExist as e:
+            return Response(
+                {"detail": str(e)}, status=status.HTTP_404_NOT_FOUND
+            )
+
+    # def get_queryset(self):
+    #     # Prefetch the related scopes for better performance
+    #     return PaypalInfo.objects.prefetch_related("scope").all()
 
 
-class GenerateTokenViewSet(viewsets.ModelViewSet):
-    queryset = PaypalInfo.objects.all()
-    serializer_class = PaypalInfoSerializer
-
+class GenerateTokenViewSet(viewsets.ViewSet):
     def create(self, request, *args, **kwargs):
         try:
             get_paypal_token()
