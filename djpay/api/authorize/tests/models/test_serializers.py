@@ -12,7 +12,7 @@ class TestSerializer:
         scope = single_scope_factory.create()
         serializer = ScopeSerializer(scope)
         assert serializer.data["name"] == scope.name
-        assert serializer.data == {"id": 1, "name": scope.name}
+        assert serializer.data == {"name": scope.name}
 
     @pytest.mark.django_db
     def test_paypal_token_serializer(self, paypal_token_factory):
