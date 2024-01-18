@@ -2,13 +2,22 @@ from django.db import models
 import requests
 from djpay.api.authorize.conf import settings as settings
 from django.contrib.auth import get_user_model, update_session_auth_hash
-
+import uuid
 
 User = get_user_model()
 
 
+class UUIDModel(models.Model):
+    # Define an id field that uses UUIDField with primary_key=True, default=uuid.uuid4, and editable=False
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # Define a Meta class that sets abstract=True
+    class Meta:
+        abstract = True
+
+
 # Create your models here.
-class Scope(models.Model):
+class Scope(UUIDModel):
     name = models.CharField(max_length=255)
 
     class Meta:
@@ -18,7 +27,7 @@ class Scope(models.Model):
         return self.name
 
 
-class PaypalToken(models.Model):
+class PaypalToken(UUIDModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     app_name = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
@@ -56,7 +65,7 @@ class PaypalToken(models.Model):
             return response.status_code == 200
 
 
-class PaypalInfo(models.Model):
+class PaypalInfo(UUIDModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     scope = models.ManyToManyField(Scope)
     access_token = models.CharField(max_length=255)
