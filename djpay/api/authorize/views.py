@@ -11,8 +11,7 @@ from djpay.api.authorize.conf import settings as settings
 from django.conf import settings as django_settings
 
 from djpay.utils.helpers import get_paypal_token
-from django.forms.models import model_to_dict
-from rest_framework.decorators import action
+from djpay.api.authorize.path import PayPalUrls
 
 
 class PaypalAppTokenViewSet(viewsets.ViewSet):
@@ -120,7 +119,7 @@ class GenerateTokenViewSet(viewsets.ViewSet):
             )
 
         # Get the base link for the PayPal API
-        info = PaypalInfo.get_link_base()
+        info = PayPalUrls.base_url()
         # Set the grant type to "client_credentials"
         grant_type = "client_credentials"
         # Construct the URL for the request

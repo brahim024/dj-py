@@ -18,6 +18,7 @@ class TestSerializer:
     def test_paypal_token_serializer(self, paypal_token_factory):
         pay_token = paypal_token_factory.create()
         serializer = PaypalTokenSerializer(pay_token)
+
         assert serializer.data == {
             "id": str(pay_token.id),
             "app_name": pay_token.app_name,

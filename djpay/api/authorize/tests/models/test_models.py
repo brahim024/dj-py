@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import pytest
 
 from unittest.mock import MagicMock, patch
+from djpay.api.authorize.path import PayPalUrls
 
 
 class TestModels:
@@ -38,6 +39,7 @@ class TestModels:
         s2 = scope_factory.create()
         user = User.objects.create()
         paypal_info = paypal_info_factory.create(user=user, scope=[s1, s2])
+        print(paypal_info_factory)
         assert PaypalInfo.objects.all().count() == 1
         assert paypal_info.scope.all().count() == 2
         assert (
@@ -56,7 +58,7 @@ class TestModels:
     ):
         paypal_info = paypal_info_factory.create()
         settings.LIVE_MODE = True
-        assert paypal_info.get_link_base() == "https://api.paypal.com"
+        assert PayPalUrls.base_url() == "https://api.paypal.com"
 
     @pytest.mark.django_db
     def test_paypal_info_return_production_sandbox_link(
@@ -64,7 +66,7 @@ class TestModels:
     ):
         paypal_info = paypal_info_factory.create()
         settings.LIVE_MODE = False
-        assert paypal_info.get_link_base() == "https://api.sandbox.paypal.com"
+        assert PayPalUrls.base_url() == "https://api.sandbox.paypal.com"
 
     @pytest.mark.skip
     @pytest.mark.django_db
