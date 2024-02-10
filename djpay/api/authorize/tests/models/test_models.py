@@ -42,6 +42,10 @@ class TestModels:
         print(paypal_info_factory)
         assert PaypalInfo.objects.all().count() == 1
         assert paypal_info.scope.all().count() == 2
+        assert (
+            PaypalInfo.objects.get(id=str(paypal_info.id)).access_token
+            == paypal_info.access_token
+        )
 
     @pytest.mark.django_db
     def test_paypal_info_factory_representing(self, paypal_info_factory):
