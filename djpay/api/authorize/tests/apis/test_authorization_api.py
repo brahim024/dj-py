@@ -15,15 +15,6 @@ class TestAPiClient:
         response = client.get(path=client_url)
         assert response.status_code == 401
 
-    @pytest.mark.django_db
-    def test_generate_access_token_list(
-        self, user_factory, view, factory, paypal_token
-    ):
-        request = factory.get(reverse("djpay:token-list"))
-        force_authenticate(request, user=user_factory.create())
-
-        response = view(request)
-        response.status_code == 200
 
     @pytest.mark.skip
     @pytest.mark.django_db

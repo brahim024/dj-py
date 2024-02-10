@@ -41,7 +41,7 @@ class TestModels:
         assert PaypalInfo.objects.all().count() == 1
         assert paypal_info.scope.all().count() == 2
         assert (
-            PaypalInfo.objects.get(id=1).access_token
+            PaypalInfo.objects.get(id=str(paypal_info.id)).access_token
             == paypal_info.access_token
         )
 
