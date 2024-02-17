@@ -65,9 +65,8 @@ class TestModels:
         self, paypal_info_factory
     ):
         paypal_info = paypal_info_factory.create()
-        settings.LIVE_MODE = False
         print(settings.LIVE_MODE)
-        # assert PayPalUrls.base_url() == "https://api.sandbox.paypal.com"
+        assert PayPalUrls.base_url() == "https://api-m.sandbox.paypal.com"
 
     @pytest.mark.skip
     @pytest.mark.django_db

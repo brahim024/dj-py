@@ -19,6 +19,7 @@ class UUIDModel(models.Model):
 # Create your models here.
 class Scope(UUIDModel):
     name = models.CharField(max_length=255)
+    
 
     class Meta:
         app_label = "paypal_authentication"

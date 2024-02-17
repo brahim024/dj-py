@@ -1,6 +1,5 @@
 from djpay.api.authorize.conf import settings
 from colored import stylize
-import colored
 
 
 # Define a class for PayPal URLs
@@ -14,9 +13,6 @@ class PayPalUrls:
         """
         Get the base URL for PayPal API based on the current mode.
         """
-        # if settings.LIVE_MODE == None:
-        #     print(colored("Warning: your Apllying to paypal test mode"))
-        #     return cls.BASE_URL
         
         cls.BASE_URL = "https://api.paypal.com" if settings.LIVE_MODE else cls.BASE_URL
         return cls.BASE_URL
