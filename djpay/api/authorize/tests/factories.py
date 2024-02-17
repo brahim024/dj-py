@@ -61,3 +61,4 @@ class PaypalInfoFactory(factory.django.DjangoModelFactory):
         if extracted:
             for scop in extracted:
                 self.scope.add(scop)
+    
