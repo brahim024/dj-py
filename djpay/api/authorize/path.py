@@ -1,5 +1,4 @@
 from djpay.api.authorize.conf import settings
-from colored import stylize
 
 
 # Define a class for PayPal URLs
