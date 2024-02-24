@@ -52,19 +52,16 @@ class TestModels:
         pay_info = paypal_info_factory.create()
         assert str(pay_info) == pay_info.access_token
 
-    @pytest.mark.django_db
-    def test_paypal_info_return_production_paypal_link(
-        self, paypal_info_factory
-    ):
-        paypal_info = paypal_info_factory.create()
+    
+    def test_paypal_info_return_production_paypal_link(self):
+        
         settings.LIVE_MODE = True
+        print(PayPalUrls().base_url)
         assert PayPalUrls.base_url() == "https://api.paypal.com"
+        settings.LIVE_MODE = False
 
-    @pytest.mark.django_db
-    def test_paypal_info_return_production_sandbox_link(
-        self, paypal_info_factory
-    ):
-        paypal_info = paypal_info_factory.create()
+    
+    def test_paypal_info_return_sandbox_link(self):
         print(settings.LIVE_MODE)
         assert PayPalUrls.base_url() == "https://api-m.sandbox.paypal.com"
 

@@ -1,5 +1,4 @@
 from djpay.api.authorize.conf import settings
-from colored import stylize
 
 
 # Define a class for PayPal URLs
@@ -9,13 +8,15 @@ class PayPalUrls:
     BASE_URL = "https://api-m.sandbox.paypal.com"
 
     @classmethod
-    def base_url(cls):
+    def base_url(self):
         """
         Get the base URL for PayPal API based on the current mode.
         """
         
-        cls.BASE_URL = "https://api.paypal.com" if settings.LIVE_MODE else cls.BASE_URL
-        return cls.BASE_URL
+        if settings.LIVE_MODE == True:
+            return "https://api.paypal.com"
+        else:
+            return self.BASE_URL
 
     
 
