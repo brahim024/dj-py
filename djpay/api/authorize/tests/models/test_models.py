@@ -65,9 +65,9 @@ class TestModels:
         print(settings.LIVE_MODE)
         assert PayPalUrls.base_url() == "https://api-m.sandbox.paypal.com"
 
-    @pytest.mark.skip
+
     @pytest.mark.django_db
-    @patch("djpay.api.authorize.models.requests.post")
+    @patch("djpay.api.authorize.models.requests.get")
     def test_paypal_info_has_valid_extention(
         self, mocker, paypal_token_factory
     ):
@@ -76,6 +76,7 @@ class TestModels:
 
         info = paypal_token_factory.create()
         has_valid = info.has_valid_token()
+        mocker.assert_called_once()
         assert has_valid == True
 
     @pytest.mark.django_db
