@@ -17,7 +17,7 @@ class TestCustomConf:
                 ]
             }
         )
-        # assert mocker.import_string.assert_called_once()
+        
         assert type(obj) != str
 
     @patch("djpay.api.authorize.conf.Settings._load_default_settings")
@@ -25,3 +25,5 @@ class TestCustomConf:
         settings = Settings(default_settings, None)
         print(settings.__dict__)
         mocker.assert_called_once()
+
+

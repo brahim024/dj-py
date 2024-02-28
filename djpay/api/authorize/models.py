@@ -39,13 +39,14 @@ class PaypalToken(UUIDModel):
 
     def __str__(self):
         return self.app_name
-
+ 
     def has_valid_token(self):
         base_url = PaypalInfo.get_link_base()
         url = base_url + "/v1/identity/oauth2/userinfo?schema=paypalv1.1"
         # print("URL TO CHECK: ",url)
         print(self.client_id, "  --------->  ", self.client_secret)
         body_params = {"grant_type": "client_credentials"}
+        
         try:
             response = requests.get(
                 url,

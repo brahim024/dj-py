@@ -10,7 +10,6 @@ from djpay.utils.client import AuthorizationAPI
 from djpay.api.authorize.conf import settings as settings
 from django.conf import settings as django_settings
 
-from djpay.utils.helpers import get_paypal_token
 from djpay.api.authorize.path import PayPalUrls
 
 
