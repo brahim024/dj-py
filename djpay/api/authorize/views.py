@@ -9,7 +9,7 @@ import json
 from djpay.utils.client import AuthorizationAPI
 from djpay.api.authorize.conf import settings as settings
 from django.conf import settings as django_settings
-
+from djpay.utils.helpers import get_paypal_token
 from djpay.api.authorize.path import PayPalUrls
 
 
@@ -21,8 +21,7 @@ class PaypalAppTokenViewSet(viewsets.ViewSet):
     * Only authenticated users are able to access this view.
     """
 
-    authentication_classes = settings.AUTHENTICATION.basic_authentication
-    permission_classes = settings.PERMISSIONS.is_authenticated
+    
 
     def list(self, request):
         """
