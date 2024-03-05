@@ -2,6 +2,7 @@ import factory
 from djpay.api.authorize.models import Scope, PaypalToken, PaypalInfo
 from faker import Faker
 from django.contrib.auth.models import User
+from django.conf import settings 
 
 
 fake = Faker()
@@ -37,7 +38,7 @@ class PaypalTokenFactory(factory.django.DjangoModelFactory):
         model = PaypalToken
 
     user = factory.SubFactory(UserFactory)
-    app_name = fake.domain_name()
+    app_name = settings.DJ_PAYPAL['PAYPAL_TOKEN_APP_NAME']
     client_id = factory.LazyAttribute(lambda _: fake.uuid4())
     client_secret = factory.LazyAttribute(lambda _: fake.uuid4())
 
