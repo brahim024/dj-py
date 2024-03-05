@@ -4,6 +4,8 @@ from rest_framework.test import APIRequestFactory
 
 from djpay.api.authorize.views import GenerateTokenViewSet
 
+from rest_framework.test import APIClient  
+
 from pytest_factoryboy import register
 from djpay.api.authorize.tests.factories import (
     ScopeFactory,
@@ -24,6 +26,16 @@ register(UserFactory)
 @pytest.fixture
 def paypal_token():
     return PaypalTokenFactory.create()
+
+
+  
+@pytest.fixture(scope="function")  
+def api_client() -> APIClient:  
+    """  
+    Fixture to provide an API client  
+    :return: APIClient  
+    """  
+    return APIClient()
 
 
 @pytest.fixture

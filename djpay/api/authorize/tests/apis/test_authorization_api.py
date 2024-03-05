@@ -1,43 +1,57 @@
 import pytest
 from django.urls import reverse
 from django.test import Client
-from rest_framework.test import force_authenticate
 from djpay.api.authorize.models import PaypalInfo
 import requests
+from djpay.api.authorize.views import PaypalAppTokenViewSet
+
 from unittest.mock import patch
 from requests.exceptions import ConnectionError
 
 
-class TestAPiClient:
-
-    @pytest.mark.skip
-    def test_list_access_api_without_authentication(self):
-        client = Client()
-        client_url = reverse("djpay:token-list")
-        response = client.get(path=client_url)
+class TestTokenApp:
+    
+    @pytest.mark.django_db
+    def test_list_access_api_without_asuthetication(self,api_client):
+        
+        response = api_client.get(path="http://127.0.0.1:8000/djpay/token/")
         assert response.status_code == 401
 
-    @pytest.mark.skip
     @pytest.mark.django_db
-    def test_generate_access_token_list(
-        self, user_factory, view, factory, paypal_token
-    ):
-        request = factory.get(reverse("djpay:token-list"))
-        force_authenticate(request, user=user_factory.create())
+    def test_list_access_api_without_token_app(self,api_client,user_factory):
+        user = user_factory.create()
+        api_client.force_authenticate(user=user)
+        response = api_client.get(path="http://127.0.0.1:8000/djpay/token/")
+        # response = views(request.data)
+        assert response.data['detail'] == 'PaypalToken matching query does not exist.'
+        assert response.status_code == 404
 
-        response = view(request)
-        response.status_code == 200
+    @pytest.mark.django_db
+    def test_list_access_api_with_token_app(self,api_client,paypal_token_factory,user_factory):
+        user = user_factory.create()
+        token_app = paypal_token_factory.create(user=user)
+        api_client.force_authenticate(user=user)
+        response = api_client.get(path="http://127.0.0.1:8000/djpay/token/")
+        
+        # response = views(request.data)
+        assert response.status_code == 200
 
-    @pytest.mark.skip
+    
+
+class TestPaypalInfo:
+    """
+    in this case I'll mock the request that is comming from paypal then make a test 
+    """
     @pytest.mark.django_db
     def test_generate_access_token_post_with_unvalid_credentials(
-        self, user_factory, factory, view_post, paypal_token
+        self, user_factory, api_client, paypal_token,paypal_info_factory
     ):
         assert PaypalInfo.objects.all().count() == 0
-        request = factory.post(reverse("djpay:generate_token-post"))
-        force_authenticate(request, user=user_factory.create())
-        view_post(request)
-        assert PaypalInfo.objects.all().count() == 0
+        user = user_factory.create()
+        api_client.force_authenticate(user=user)
+        
+        request = api_client.post(path="http://127.0.0.1:8000/djpay/generate_token/")
+        print("Response: ",request)
 
 
     @pytest.mark.skip
