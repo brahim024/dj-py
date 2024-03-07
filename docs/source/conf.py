@@ -5,9 +5,22 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-import os
+import datetime
+import pathlib
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+
+import toml
+
+ROOT_DIR = pathlib.Path(__file__).parents[2].resolve()
+sys.path.append(ROOT_DIR.as_posix())
+
+pyproject = toml.load((ROOT_DIR / "pyproject.toml").as_posix())
+poetry = pyproject["tool"]["poetry"]
+
+project = poetry["name"]
+copyright = f"{datetime.datetime.now().year}, Brahim024"
+author = poetry["authors"][0]
+release = version = poetry["version"]
 
 # -- Project information -----------------------------------------------------
 
