@@ -16,6 +16,7 @@ class TestModels:
     @pytest.mark.django_db
     def test_scope_representation(self):
         scope = Scope.objects.create(name="test")
+
         assert str(scope) == "test"
 
     @pytest.mark.django_db
